@@ -1,0 +1,2313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Class — End-to-End ML + Data Pipeline v4 (10/10 Complete)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f14;
+  --bg2: #131720;
+  --bg3: #1a2030;
+  --surface: #1e2535;
+  --surface2: #242c3d;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #e8eaf0;
+  --text2: #9aa3b8;
+  --text3: #6b7590;
+  --accent: #4f8ef7;
+  --accent2: #7c5ce4;
+  --green: #34c97a;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --pink: #ec4899;
+  --teal: #14b8a6;
+  --orange: #f97316;
+  --violet: #8b5cf6;
+  --cyan: #06b6d4;
+  --lime: #84cc16;
+  --rose: #f43f5e;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  width: 1080px;
+  margin: 0 auto;
+  padding: 0 0 60px;
+}
+
+/* ═══════════════════════════════════════
+   HEADER
+═══════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, #0d0f14 0%, #131a2e 50%, #0d1420 100%);
+  border-bottom: 1px solid var(--border2);
+  padding: 44px 48px 36px;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: -60px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(79,142,247,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; right: 80px;
+  width: 250px; height: 250px;
+  background: radial-gradient(circle, rgba(124,92,228,0.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+.header-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.header-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 24px; height: 2px;
+  background: var(--accent);
+}
+.header h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 38px;
+  line-height: 1.15;
+  color: #fff;
+  margin-bottom: 14px;
+  letter-spacing: -0.5px;
+}
+.header h1 span { color: var(--accent); font-style: italic; }
+.header-meta {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.meta-pill {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.meta-pill .dot { width: 6px; height: 6px; border-radius: 50%; }
+
+/* ═══════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════ */
+.main { padding: 0 36px; }
+
+/* ═══════════════════════════════════════
+   HORIZONTAL BANNERS
+═══════════════════════════════════════ */
+.h-banner {
+  border-radius: 10px;
+  padding: 16px 22px;
+  margin: 24px 0 6px;
+  border: 1px solid;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.h-banner-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.h-banner-body { flex: 1; }
+.h-banner-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 15px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.h-banner-desc { font-size: 11px; line-height: 1.6; margin-bottom: 8px; }
+.h-banner-tools { display: flex; flex-wrap: wrap; gap: 5px; }
+.h-banner-tools span {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.07);
+  color: #ccc;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.gov { background: rgba(124,92,228,0.08); border-color: rgba(124,92,228,0.3); }
+.gov .h-banner-desc { color: rgba(196,180,255,0.8); }
+.orch { background: rgba(52,201,122,0.07); border-color: rgba(52,201,122,0.25); }
+.orch .h-banner-desc { color: rgba(160,230,190,0.8); }
+
+/* ═══════════════════════════════════════
+   PHASE HEADER
+═══════════════════════════════════════ */
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 28px 0 10px;
+  padding: 0 2px;
+}
+.phase-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+.phase-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 16px;
+  color: #fff;
+}
+.phase-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+.badge-new { background: var(--violet); color: #fff; }
+.badge-fixed { background: var(--rose); color: #fff; }
+.badge-critical { background: var(--amber); color: #000; }
+
+/* ═══════════════════════════════════════
+   CARDS
+═══════════════════════════════════════ */
+.grid-1 { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--border2); }
+
+.card-accent-bar {
+  height: 3px;
+  width: 100%;
+}
+
+.card-inner { padding: 14px 16px 16px; }
+
+.step-tag {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text3);
+  letter-spacing: 1px;
+}
+
+.card-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 15px;
+  color: #fff;
+  margin-bottom: 6px;
+  padding-right: 50px;
+  line-height: 1.3;
+}
+
+.card-desc {
+  font-size: 11px;
+  color: var(--text2);
+  line-height: 1.65;
+  margin-bottom: 10px;
+}
+
+.card-section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+
+.tools-row { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+.tool-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid;
+}
+
+.techniques-row {
+  font-size: 10px;
+  color: var(--text3);
+  line-height: 1.6;
+  padding: 8px 10px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  margin-top: 4px;
+}
+.techniques-row b { color: var(--text2); font-weight: 700; }
+
+/* Split box */
+.split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.split-box {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 10px 12px;
+}
+.split-box-title { font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.split-box-desc { font-size: 10px; color: var(--text2); line-height: 1.5; }
+.split-box-tools { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 3px; }
+.split-box-tools span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #bbb;
+}
+
+/* ═══════════════════════════════════════
+   ARROW
+═══════════════════════════════════════ */
+.arrow {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+}
+.arrow-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.arrow-line2 { width: 2px; height: 16px; background: var(--border2); }
+.arrow-head {
+  width: 0; height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--border2);
+}
+
+/* ═══════════════════════════════════════
+   COLOR THEMES FOR CHIPS
+═══════════════════════════════════════ */
+.chip-blue { background: rgba(79,142,247,0.12); border-color: rgba(79,142,247,0.3); color: #7eb5ff; }
+.chip-violet { background: rgba(139,92,246,0.12); border-color: rgba(139,92,246,0.3); color: #b89dff; }
+.chip-green { background: rgba(52,201,122,0.12); border-color: rgba(52,201,122,0.3); color: #5de09a; }
+.chip-amber { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.3); color: #fbbf24; }
+.chip-red { background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.3); color: #f87171; }
+.chip-pink { background: rgba(236,72,153,0.12); border-color: rgba(236,72,153,0.3); color: #f472b6; }
+.chip-teal { background: rgba(20,184,166,0.12); border-color: rgba(20,184,166,0.3); color: #2dd4bf; }
+.chip-orange { background: rgba(249,115,22,0.12); border-color: rgba(249,115,22,0.3); color: #fb923c; }
+.chip-cyan { background: rgba(6,182,212,0.12); border-color: rgba(6,182,212,0.3); color: #22d3ee; }
+.chip-lime { background: rgba(132,204,22,0.12); border-color: rgba(132,204,22,0.3); color: #a3e635; }
+.chip-rose { background: rgba(244,63,94,0.12); border-color: rgba(244,63,94,0.3); color: #fb7185; }
+.chip-gray { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: #9aa3b8; }
+
+/* Card accent bar colors */
+.bar-blue { background: linear-gradient(90deg, #4f8ef7, #7c5ce4); }
+.bar-violet { background: linear-gradient(90deg, #7c5ce4, #ec4899); }
+.bar-green { background: linear-gradient(90deg, #34c97a, #14b8a6); }
+.bar-amber { background: linear-gradient(90deg, #f59e0b, #f97316); }
+.bar-red { background: linear-gradient(90deg, #ef4444, #f43f5e); }
+.bar-pink { background: linear-gradient(90deg, #ec4899, #8b5cf6); }
+.bar-teal { background: linear-gradient(90deg, #14b8a6, #06b6d4); }
+.bar-orange { background: linear-gradient(90deg, #f97316, #f59e0b); }
+.bar-cyan { background: linear-gradient(90deg, #06b6d4, #4f8ef7); }
+.bar-lime { background: linear-gradient(90deg, #84cc16, #34c97a); }
+.bar-gray { background: linear-gradient(90deg, #4a5568, #6b7280); }
+.bar-rose { background: linear-gradient(90deg, #f43f5e, #ef4444); }
+.bar-indigo { background: linear-gradient(90deg, #4f46e5, #7c5ce4); }
+.bar-fuchsia { background: linear-gradient(90deg, #a855f7, #ec4899); }
+
+/* Phase header colors */
+.ph-blue { background: rgba(79,142,247,0.15); color: #7eb5ff; }
+.ph-indigo { background: rgba(79,70,229,0.15); color: #a5b4fc; }
+.ph-violet { background: rgba(139,92,246,0.15); color: #c4b5fd; }
+.ph-green { background: rgba(52,201,122,0.15); color: #6ee7a0; }
+.ph-amber { background: rgba(245,158,11,0.15); color: #fcd34d; }
+.ph-red { background: rgba(239,68,68,0.15); color: #fca5a5; }
+.ph-pink { background: rgba(236,72,153,0.15); color: #f9a8d4; }
+.ph-teal { background: rgba(20,184,166,0.15); color: #5eead4; }
+.ph-orange { background: rgba(249,115,22,0.15); color: #fdba74; }
+.ph-cyan { background: rgba(6,182,212,0.15); color: #67e8f9; }
+.ph-fuchsia { background: rgba(168,85,247,0.15); color: #d8b4fe; }
+.ph-rose { background: rgba(244,63,94,0.15); color: #fda4af; }
+.ph-lime { background: rgba(132,204,22,0.15); color: #bef264; }
+.ph-gray { background: rgba(107,114,128,0.2); color: #d1d5db; }
+
+/* ═══════════════════════════════════════
+   PARALLEL / SPECIAL PATHS
+═══════════════════════════════════════ */
+.special-section {
+  border-radius: 12px;
+  margin: 14px 0;
+  overflow: hidden;
+  border: 1px solid;
+}
+.special-header {
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.special-icon { font-size: 20px; }
+.special-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 16px;
+  color: #fff;
+}
+.special-subtitle { font-size: 11px; margin-top: 2px; }
+.special-body { padding: 0 16px 16px; }
+.special-grid { display: grid; gap: 8px; }
+.special-grid-2 { grid-template-columns: 1fr 1fr; }
+.special-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+.sub-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 11px 13px;
+}
+.sub-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text3);
+  margin-bottom: 4px;
+}
+.sub-title { font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.sub-desc { font-size: 10px; color: var(--text2); line-height: 1.5; margin-bottom: 6px; }
+.sub-tools { display: flex; flex-wrap: wrap; gap: 3px; }
+.sub-tools span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #bbb;
+}
+
+/* Streaming */
+.s-stream { background: rgba(249,115,22,0.06); border-color: rgba(249,115,22,0.2); }
+.s-stream .special-header { background: rgba(249,115,22,0.08); }
+.s-stream .special-subtitle { color: rgba(253,186,116,0.8); }
+
+/* Batch */
+.s-batch { background: rgba(139,92,246,0.06); border-color: rgba(139,92,246,0.2); }
+.s-batch .special-header { background: rgba(139,92,246,0.08); }
+.s-batch .special-subtitle { color: rgba(196,181,253,0.8); }
+
+/* Feedback */
+.s-feedback { background: rgba(52,201,122,0.06); border-color: rgba(52,201,122,0.25); }
+.s-feedback .special-header { background: rgba(52,201,122,0.08); }
+.s-feedback .special-subtitle { color: rgba(134,239,172,0.8); }
+
+/* LLMOps */
+.s-llm { background: rgba(6,182,212,0.06); border-color: rgba(6,182,212,0.2); }
+.s-llm .special-header { background: rgba(6,182,212,0.08); }
+.s-llm .special-subtitle { color: rgba(103,232,249,0.8); }
+
+/* ═══════════════════════════════════════
+   LEGEND
+═══════════════════════════════════════ */
+.legend {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-top: 28px;
+}
+.legend-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 14px;
+}
+.legend-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.legend-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 6px;
+}
+.legend-bar { width: 4px; min-height: 36px; border-radius: 2px; flex-shrink: 0; margin-top: 2px; }
+.legend-text .lt { font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+.legend-text .ls { font-size: 10px; color: var(--text3); }
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+.footer {
+  text-align: center;
+  padding: 28px 0 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 1px;
+}
+.footer b { color: var(--accent); }
+
+/* ═══════════════════════════════════════
+   DIVIDER
+═══════════════════════════════════════ */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border2) 30%, var(--border2) 70%, transparent);
+  margin: 8px 0;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ HEADER ═══════ -->
+<div class="header">
+  <div class="header-eyebrow">Master Class Reference</div>
+  <h1>End-to-End <span>ML + Data Pipeline</span><br>Architecture — v4 Complete</h1>
+  <div class="header-meta">
+    <div class="meta-pill"><div class="dot" style="background:#34c97a"></div>31 Steps</div>
+    <div class="meta-pill"><div class="dot" style="background:#4f8ef7"></div>3 Inference Paths</div>
+    <div class="meta-pill"><div class="dot" style="background:#f59e0b"></div>Full Feedback Loop</div>
+    <div class="meta-pill"><div class="dot" style="background:#8b5cf6"></div>Security + Governance</div>
+    <div class="meta-pill"><div class="dot" style="background:#ec4899"></div>Feature Store</div>
+    <div class="meta-pill"><div class="dot" style="background:#06b6d4"></div>LLMOps Track</div>
+    <div class="meta-pill"><div class="dot" style="background:#ef4444"></div>Benchmarked: Google · Meta · Uber · Netflix</div>
+    <div class="meta-pill"><div class="dot" style="background:#f59e0b"></div>Observability — Logs + Metrics + Traces</div>
+    <div class="meta-pill"><div class="dot" style="background:#10b981"></div>Cost Optimization Layer</div>
+    <div class="meta-pill"><div class="dot" style="background:#3b82f6"></div>Data Access / Reverse ETL</div>
+    <div class="meta-pill"><div class="dot" style="background:#a855f7"></div>Edge / On-Device Inference</div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══════ GOVERNANCE (Horizontal) ═══════ -->
+<div class="h-banner gov" style="margin-top:28px;">
+  <div class="h-banner-icon">🔒</div>
+  <div class="h-banner-body">
+    <div class="h-banner-title">Governance, Security & IAM — Horizontal Across ALL Layers</div>
+    <div class="h-banner-desc" style="color:rgba(196,180,255,0.8)">Controls who accesses what data, enforces column-level security, masks PII, manages secrets centrally, handles JWT/OAuth auth, and logs every action for compliance audits. Not a step — the foundation everything runs on. Includes model access control and data privacy (PII handling). Covers Auth, RBAC, data privacy, and audit trail. <b style="color:#c4b5fd;">Privacy Enhancing Technologies (PET) — beyond PII masking:</b> Differential Privacy adds calibrated statistical noise to protect individuals in aggregations (used by Apple in iOS, Google in Chrome) — analysts get accurate statistics but cannot identify any individual. Homomorphic Encryption allows computation on encrypted data without decrypting — the ML model never sees raw data. Secure Multi-Party Computation enables multiple parties to jointly train a model without sharing raw data. These are used in healthcare ML (HIPAA), financial ML (GDPR), and federated settings.</div>
+    <div class="h-banner-tools">
+      <span>AWS IAM</span><span>Apache Ranger</span><span>HashiCorp Vault</span><span>OAuth 2.0 / OIDC</span><span>JWT Auth</span><span>AWS Secrets Manager</span><span>Column Masking</span><span>RBAC / ABAC</span><span>Audit Logging</span><span>Microsoft Purview</span><span>Presidio (PII Detection)</span><span>Privacera</span><span>Differential Privacy (Apple/Google)</span><span>PySyft (Homomorphic Enc.)</span><span>OpenMined (SMPC)</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ ORCHESTRATION (Horizontal) ═══════ -->
+<div class="h-banner orch">
+  <div class="h-banner-icon">⚙️</div>
+  <div class="h-banner-body">
+    <div class="h-banner-title">Pipeline Orchestration — Horizontal Across ALL Batch Layers</div>
+    <div class="h-banner-desc" style="color:rgba(160,230,190,0.8)">Schedules, monitors, and retries every batch job across the full pipeline. Defines DAGs (Directed Acyclic Graphs) specifying dependencies. When Step N finishes, Step N+1 triggers — automatically. Also manages retraining triggers on drift detection.</div>
+    <div class="h-banner-tools">
+      <span>Apache Airflow</span><span>Prefect</span><span>Dagster</span><span>Temporal</span><span>Kubeflow Pipelines</span><span>AWS Step Functions</span><span>Luigi</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+   PHASE 1A — CLICKSTREAM INGESTION
+═══════════════════════════════════════ -->
+<div class="phase-header">
+  <div class="phase-num ph-indigo">PHASE 1A</div>
+  <div class="phase-title">Clickstream & Event Ingestion</div>
+  <span class="phase-badge badge-new">NEW</span>
+</div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-indigo"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 01</div>
+      <div class="card-title">Frontend Event Collection (Clickstream)</div>
+      <div class="card-desc">User actions — clicks, page views, searches, scroll depth, session starts — are captured directly from the browser/app and streamed into Kafka without touching the OLTP database. This is a separate, high-volume ingestion path. At Uber, 80%+ of data originates here. Every interaction is a labelled training signal for future models.</div>
+      <div class="card-section-label">Tools & Technologies</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-indigo" style="background:rgba(79,70,229,0.12);border-color:rgba(79,70,229,0.3);color:#a5b4fc;">Segment</span>
+        <span class="tool-chip chip-indigo" style="background:rgba(79,70,229,0.12);border-color:rgba(79,70,229,0.3);color:#a5b4fc;">Snowplow</span>
+        <span class="tool-chip chip-indigo" style="background:rgba(79,70,229,0.12);border-color:rgba(79,70,229,0.3);color:#a5b4fc;">RudderStack</span>
+        <span class="tool-chip chip-indigo" style="background:rgba(79,70,229,0.12);border-color:rgba(79,70,229,0.3);color:#a5b4fc;">AWS Firehose</span>
+        <span class="tool-chip chip-indigo" style="background:rgba(79,70,229,0.12);border-color:rgba(79,70,229,0.3);color:#a5b4fc;">Apache EventMesh</span>
+      </div>
+      <div class="card-section-label">Techniques</div>
+      <div class="techniques-row"><b>Event schema validation at source</b> · Client-side vs server-side tracking · Session stitching · Bot filtering · PII scrubbing before ingestion · Sampling for high-volume events</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- ═══════════════════════════════════════
+   PHASE 1B — APP INGESTION
+═══════════════════════════════════════ -->
+<div class="phase-header">
+  <div class="phase-num ph-blue">PHASE 1B</div>
+  <div class="phase-title">Application Sources & Transactional Ingestion</div>
+</div>
+<div class="grid-2">
+  <div class="card">
+    <div class="card-accent-bar bar-blue"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 02</div>
+      <div class="card-title">Frontend (Web / Mobile UI)</div>
+      <div class="card-desc">User-facing product. Every interaction triggers API calls. Structured data flows into OLTP DB. Raw events go to Step 01 clickstream path.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-blue">React / Vue.js</span>
+        <span class="tool-chip chip-blue">Flutter</span>
+        <span class="tool-chip chip-blue">React Native</span>
+        <span class="tool-chip chip-blue">GraphQL</span>
+        <span class="tool-chip chip-blue">REST APIs</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Optimistic UI · API versioning · Rate limiting at client · A/B test flag injection</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-accent-bar bar-blue"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 03</div>
+      <div class="card-title">Backend APIs & Microservices</div>
+      <div class="card-desc">Applies business logic, validates requests, writes transactional records to OLTP DB. Source of service-to-service events via message queues using the Outbox pattern.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-blue">Java / Spring Boot</span>
+        <span class="tool-chip chip-blue">Node.js</span>
+        <span class="tool-chip chip-blue">Python / FastAPI</span>
+        <span class="tool-chip chip-blue">gRPC</span>
+        <span class="tool-chip chip-blue">Istio</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Saga pattern · Circuit breakers · Outbox pattern for reliable events · mTLS · JWT validation</div>
+    </div>
+  </div>
+</div>
+<div style="height:8px;"></div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-blue"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 04</div>
+      <div class="card-title">OLTP Database — Transactional Store</div>
+      <div class="card-desc">Live operational database. Stores real-time transactions — orders, users, payments, inventory. Optimised for fast row-level reads/writes with ACID guarantees. NOT suited for analytics — querying it for reports kills production performance. WAL (Write-Ahead Log) feeds CDC directly.</div>
+      <div class="card-section-label">Tools & Technologies</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-blue">MySQL</span><span class="tool-chip chip-blue">PostgreSQL</span><span class="tool-chip chip-blue">MongoDB</span><span class="tool-chip chip-blue">DynamoDB</span><span class="tool-chip chip-blue">Cassandra</span><span class="tool-chip chip-blue">CockroachDB</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Connection pooling (PgBouncer) · Read replicas for CDC · Sharding · WAL (Write-Ahead Log) feeds CDC · Index optimisation · Partitioning</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- DATA CONTRACTS -->
+<div class="phase-header">
+  <div class="phase-num ph-orange">PHASE 1C</div>
+  <div class="phase-title">Data Contracts</div>
+  <span class="phase-badge badge-new">NEW</span>
+</div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-orange"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 05</div>
+      <div class="card-title">Data Contracts — Producer-Consumer Agreement</div>
+      <div class="card-desc">Before data enters streaming, producers formally define a contract: schema, field types, SLAs, ownership. If a producer changes a field name or drops a column, consumers are automatically alerted before it breaks downstream. Used at Uber, Airbnb, PayPal to prevent silent data failures.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-orange">Data Contract CLI</span><span class="tool-chip chip-orange">Soda Data Contracts</span><span class="tool-chip chip-orange">OpenDataMesh</span><span class="tool-chip chip-orange">AsyncAPI</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Schema versioning · Backward / forward compatibility · SLA enforcement · Ownership tagging per field · Breaking-change alerts</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- ═══════════════════════════════════════
+   PHASE 2 — CDC + STREAMING
+═══════════════════════════════════════ -->
+<div class="phase-header">
+  <div class="phase-num ph-orange">PHASE 2</div>
+  <div class="phase-title">Change Data Capture & Streaming</div>
+  <span class="phase-badge badge-critical">🔥 CRITICAL PATH</span>
+</div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-orange"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 06</div>
+      <div class="card-title">CDC — Change Data Capture</div>
+      <div class="card-desc">Reads the database Write-Ahead Log (WAL) and captures every INSERT, UPDATE, DELETE as a structured event — real time, zero DB impact. Transforms database mutations into a stream of events Kafka can consume. No polling, no custom triggers, no application changes needed.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-orange">Debezium</span><span class="tool-chip chip-orange">AWS DMS</span><span class="tool-chip chip-orange">Striim</span><span class="tool-chip chip-orange">Maxwell</span><span class="tool-chip chip-orange">Qlik Replicate</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Log-based CDC (preferred over query-based) · Snapshot mode for initial load · Exactly-once delivery · Connector config per DB type · Heartbeat monitoring</div>
+    </div>
+  </div>
+</div>
+<div style="height:8px;"></div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-amber"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 07</div>
+      <div class="card-title">Streaming Layer — Message Bus 🔥</div>
+      <div class="card-desc">High-throughput, fault-tolerant distributed event log. Producers publish to topics; multiple independent consumers read at their own pace. Schema Registry enforces Avro/Protobuf contracts. Dead Letter Queue captures poison-pill messages. At Netflix: 700 billion events/day through Kafka.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-amber">Apache Kafka</span><span class="tool-chip chip-amber">Confluent Cloud</span><span class="tool-chip chip-amber">AWS Kinesis</span><span class="tool-chip chip-amber">Google Pub/Sub</span><span class="tool-chip chip-amber">Azure Event Hubs</span><span class="tool-chip chip-amber">Schema Registry (Avro)</span><span class="tool-chip chip-amber">Dead Letter Queue</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Topic partitioning by key · Consumer groups · Exactly-once semantics · Message compression (Snappy/LZ4) · Retention policies · Lag monitoring · Replication factor for HA</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- EARLY QUALITY GATE -->
+<div class="phase-header">
+  <div class="phase-num ph-fuchsia">PHASE 2B</div>
+  <div class="phase-title">Early Quality Gate at Ingestion</div>
+  <span class="phase-badge badge-fixed">FIXED — Runs at ingestion, not just after Lake</span>
+</div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-fuchsia"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 08</div>
+      <div class="card-title">Ingestion-time Quality Gate 🔥</div>
+      <div class="card-desc">Quality checks run HERE — at ingestion — not just after the Data Lake. Catches bad data before it poisons downstream systems. Validates schema, nulls, value ranges, referential integrity on every incoming event. Failed records are routed to DLQ. Prevents the "garbage in, garbage out" problem that kills model accuracy.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-pink">Great Expectations</span><span class="tool-chip chip-pink">dbt tests</span><span class="tool-chip chip-pink">Soda Core</span><span class="tool-chip chip-pink">Apache Griffin</span><span class="tool-chip chip-pink">AWS Glue DQ</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Schema validation · Null checks · Range / anomaly detection · Referential integrity · Row count reconciliation · SLA alerting · Quarantine bad records</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- ═══════════════════════════════════════
+   PHASE 3 — PROCESSING
+═══════════════════════════════════════ -->
+<div class="phase-header">
+  <div class="phase-num ph-rose">PHASE 3</div>
+  <div class="phase-title">ETL / Processing Layer</div>
+  <span class="phase-badge badge-critical">🔥 CRITICAL PATH</span>
+</div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-rose"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 09</div>
+      <div class="card-title">Batch + Stream Processing</div>
+      <div class="card-desc">Raw events are cleaned, joined across sources, deduplicated, enriched, and aggregated. Spark handles large historical batch jobs (terabytes). Flink handles low-latency stream processing (milliseconds). dbt handles SQL-based warehouse transforms. Output stored as Parquet/ORC — columnar formats that make analytics 10–100x faster than row-based storage.</div>
+      <div class="card-section-label">Tools & Technologies</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-red">Apache Spark</span><span class="tool-chip chip-red">Apache Flink</span><span class="tool-chip chip-red">dbt</span><span class="tool-chip chip-red">Apache Beam</span><span class="tool-chip chip-red">Databricks</span><span class="tool-chip chip-red">AWS Glue ETL</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Micro-batch vs true streaming · Watermarking for late-arriving data · Broadcast joins · Partitioning by date/region · Z-ordering · Parquet/ORC columnar storage · Shuffle optimisation · Medallion (Bronze/Silver/Gold) architecture</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- ═══════════════════════════════════════
+   PHASE 4 — STORAGE
+═══════════════════════════════════════ -->
+<div class="phase-header">
+  <div class="phase-num ph-green">PHASE 4</div>
+  <div class="phase-title">Data Lake & Storage</div>
+</div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-green"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 10</div>
+      <div class="card-title">Data Lake — Raw + Curated + Versioned</div>
+      <div class="card-desc">Central repository for all data at every stage. Raw zone = immutable, as-received. Silver zone = cleaned, validated. Gold zone = aggregated, analytics-ready. Open table formats add ACID transactions, schema evolution, time-travel queries on cheap object storage. Delta Lake is used at Databricks / Azure; Iceberg at Netflix, Apple; Hudi at Uber.</div>
+      <div class="card-section-label">Tools & Technologies</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-green">Amazon S3</span><span class="tool-chip chip-green">Azure Data Lake (ADLS)</span><span class="tool-chip chip-green">Google Cloud Storage</span><span class="tool-chip chip-green">Apache Hudi</span><span class="tool-chip chip-green">Delta Lake</span><span class="tool-chip chip-green">Apache Iceberg</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Bronze/Silver/Gold (Medallion) architecture · ACID on object storage · Time-travel queries · Schema evolution · Compaction (small file problem) · Partitioning by year/month/day · Copy-on-write vs merge-on-read</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- ═══════════════════════════════════════
+   PHASE 5 — QUALITY + METADATA
+═══════════════════════════════════════ -->
+<div class="phase-header">
+  <div class="phase-num ph-violet">PHASE 5</div>
+  <div class="phase-title">Post-Processing Quality, Metadata & Lineage</div>
+</div>
+<div class="grid-3">
+  <div class="card">
+    <div class="card-accent-bar bar-violet"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 11</div>
+      <div class="card-title">Post-Lake Quality Validation</div>
+      <div class="card-desc">Second quality checkpoint after processing. Validates aggregated datasets — row counts match expectations, business rules satisfied. Fails the DAG if checks don't pass. Runs after every pipeline execution.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row"><span class="tool-chip chip-violet">Great Expectations</span><span class="tool-chip chip-violet">dbt tests</span><span class="tool-chip chip-violet">Soda Core</span></div>
+      <div class="techniques-row"><b>Techniques:</b> Statistical profiling · Data freshness SLAs · Custom rule engines · Threshold alerts</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-accent-bar bar-violet"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 12</div>
+      <div class="card-title">Metadata Catalog + Data Mesh Ownership</div>
+      <div class="card-desc">Searchable directory of all datasets — what exists, where it lives, who owns it, column meanings, freshness. Enables data discovery without asking on Slack. Auto-tagging and business glossary. <b style="color:#c4b5fd;">Data Mesh principle applied here:</b> at Uber, Airbnb, and Netflix scale, data is owned by domains (Payments team owns payment data, Rides team owns ride data) — not one central data team. Each domain publishes its own data products with SLAs. DataHub supports domain-based ownership natively. This prevents the "central data team bottleneck" that kills data platform velocity at scale.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row"><span class="tool-chip chip-violet">DataHub</span><span class="tool-chip chip-violet">AWS Glue Catalog</span><span class="tool-chip chip-violet">Amundsen</span><span class="tool-chip chip-violet">Apache Atlas</span><span class="tool-chip chip-violet">Atlan</span></div>
+      <div class="techniques-row"><b>Techniques:</b> Auto-tagging · Business glossary · <b>Domain-based data ownership (Data Mesh)</b> · Data product publishing with SLAs · SLA tracking · Search indexing · Self-serve data infrastructure</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-accent-bar bar-violet"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 13</div>
+      <div class="card-title">Data Lineage</div>
+      <div class="card-desc">Tracks every field's journey from source through transformations to final model. Critical for debugging, GDPR right-to-erasure, and impact analysis when a source schema changes.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row"><span class="tool-chip chip-violet">OpenMetadata</span><span class="tool-chip chip-violet">Marquez</span><span class="tool-chip chip-violet">Collibra</span></div>
+      <div class="techniques-row"><b>Techniques:</b> Column-level lineage · Cross-system lineage · Impact analysis · GDPR erasure tracking</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- ═══════════════════════════════════════
+   PHASE 6 — WAREHOUSE
+═══════════════════════════════════════ -->
+<div class="phase-header">
+  <div class="phase-num ph-cyan">PHASE 6</div>
+  <div class="phase-title">Data Warehouse (Analytics Layer)</div>
+</div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-cyan"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 14</div>
+      <div class="card-title">OLAP / Data Warehouse</div>
+      <div class="card-desc">Stores aggregated, analytics-ready data in columnar format optimised for large-scale reads. Powers BI dashboards, ad-hoc SQL queries, executive reports. Uses MPP (Massively Parallel Processing) to distribute queries across hundreds of nodes. COMPLETELY separate from OLTP — reads millions of rows fast, doesn't handle individual transaction writes.</div>
+      <div class="card-section-label">Tools & Technologies</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-cyan">Google BigQuery</span><span class="tool-chip chip-cyan">Amazon Redshift</span><span class="tool-chip chip-cyan">Snowflake</span><span class="tool-chip chip-cyan">Databricks SQL</span><span class="tool-chip chip-cyan">Azure Synapse</span><span class="tool-chip chip-cyan">ClickHouse</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Star schema / Snowflake schema · Materialized views · Clustering keys · Result caching · Query cost optimisation · Workload management · Partitioning</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- VECTOR STORE -->
+<div class="phase-header">
+  <div class="phase-num ph-fuchsia">PHASE 6B</div>
+  <div class="phase-title">Vector Store / Embedding Layer (GenAI)</div>
+  <span class="phase-badge badge-new">NEW — 2025 Critical</span>
+</div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-fuchsia"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 15</div>
+      <div class="card-title">Vector Store & Embedding Layer</div>
+      <div class="card-desc">Converts text, images, and structured data into high-dimensional vector embeddings. Stores for ultra-fast semantic similarity search. Powers RAG (Retrieval-Augmented Generation), semantic product search, embedding-based recommendations, and fraud similarity detection. Every major tech company added this in 2023–2025. Now mandatory in modern ML pipelines.</div>
+      <div class="card-section-label">Tools & Technologies</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-pink">Pinecone</span><span class="tool-chip chip-pink">Weaviate</span><span class="tool-chip chip-pink">pgvector</span><span class="tool-chip chip-pink">Qdrant</span><span class="tool-chip chip-pink">Milvus</span><span class="tool-chip chip-pink">Chroma</span><span class="tool-chip chip-pink">Vertex AI Matching Engine</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Embedding models (OpenAI, sentence-transformers, custom) · ANN (Approx. Nearest Neighbour) · HNSW index · Hybrid search (vector + keyword) · RAG architecture · Embedding versioning · Re-indexing strategies</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- ═══════════════════════════════════════
+   PHASE 7 — FEATURE ENGINEERING (ADDED)
+═══════════════════════════════════════ -->
+<div class="phase-header">
+  <div class="phase-num ph-amber">PHASE 7</div>
+  <div class="phase-title">Feature Engineering & Feature Store</div>
+  <span class="phase-badge badge-new">Feature Store Added</span>
+  <span class="phase-badge badge-critical">🔥 CRITICAL</span>
+</div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-amber"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 16</div>
+      <div class="card-title">Advanced Feature Engineering 🔥</div>
+      <div class="card-desc">Transforms raw cleaned data into numerical signals ML models learn from. Examples: "total_spend_last_30_days", "rolling_avg_session_duration", "days_since_last_login", "purchase_frequency_quartile". Time-window aggregations are the highest-impact feature type. Backfill pipelines compute historical features for training data that predates the Feature Store.</div>
+      <div class="card-section-label">Tools & Technologies</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-amber">Apache Spark</span><span class="tool-chip chip-amber">Python / Pandas</span><span class="tool-chip chip-amber">Tecton</span><span class="tool-chip chip-amber">dbt feature models</span><span class="tool-chip chip-amber">Featuretools</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Sliding / tumbling / session time windows · Target encoding · One-hot encoding · Log / Box-Cox transforms · Feature selection (correlation, importance) · Backfill pipelines · Feature leakage prevention</div>
+    </div>
+  </div>
+</div>
+<div style="height:8px;"></div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-amber"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 17</div>
+      <div class="card-title">Feature Store — Versioned & Centralised 🔥</div>
+      <div class="card-desc">Centrally stores, versions, and serves computed features. Solves the "feature duplication problem" — one team computes "user_age_bucket", seven teams each compute it differently. Feature Store = single source of truth. Critical design: offline store serves training (batch), online store serves inference (&lt;10ms single-row). Point-in-time correct joins prevent label leakage in training.</div>
+      <div class="card-section-label">Tools & Technologies</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-amber">Feast</span><span class="tool-chip chip-amber">Tecton</span><span class="tool-chip chip-amber">Hopsworks</span><span class="tool-chip chip-amber">SageMaker Feature Store</span><span class="tool-chip chip-amber">Vertex AI Feature Store</span>
+      </div>
+      <div class="split-grid">
+        <div class="split-box">
+          <div class="split-box-title">🗄️ Offline Store — Training</div>
+          <div class="split-box-desc">Historical features for model training. Batch access. Point-in-time correct joins prevent label leakage in the training dataset.</div>
+          <div class="split-box-tools"><span>S3</span><span>BigQuery</span><span>Parquet files</span><span>Delta Lake</span></div>
+        </div>
+        <div class="split-box">
+          <div class="split-box-title">⚡ Online Store — Real-Time Serving</div>
+          <div class="split-box-desc">Live feature lookup at inference. Single-row reads at &lt;10ms latency. Must match offline feature logic exactly to prevent training-serving skew.</div>
+          <div class="split-box-tools"><span>Redis</span><span>DynamoDB</span><span>Cassandra</span><span>Bigtable</span></div>
+        </div>
+      </div>
+      <div class="techniques-row" style="margin-top:8px;"><b>Techniques:</b> Feature versioning · Point-in-time correct joins · Online/offline consistency checks · Feature sharing across teams · Training-serving skew detection</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- ═══════════════════════════════════════
+   PHASE 8 — DATA VERSIONING + TRAINING
+═══════════════════════════════════════ -->
+<div class="phase-header">
+  <div class="phase-num ph-red">PHASE 8</div>
+  <div class="phase-title">Data Versioning & Model Training</div>
+  <span class="phase-badge badge-new">Data Versioning Added</span>
+</div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-red"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 18</div>
+      <div class="card-title">Data Versioning 🔥</div>
+      <div class="card-desc">Versions training datasets like Git versions code. Without this, model reproduction is impossible — if your model degrades in production, you cannot retrain with the exact same data to debug it. Every model artifact links to an exact dataset version. Full audit trail: model version → code version → data version → feature version.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-red">DVC (Data Version Control)</span><span class="tool-chip chip-red">LakeFS</span><span class="tool-chip chip-red">Delta Lake versioning</span><span class="tool-chip chip-red">Pachyderm</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Git-like branching for datasets · Dataset snapshots · Model-to-data lineage · Experiment reproducibility · Storage-efficient deduplication · Version tagging</div>
+    </div>
+  </div>
+</div>
+<div style="height:8px;"></div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-red"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 19</div>
+      <div class="card-title">Model Training</div>
+      <div class="card-desc">ML model learns statistical patterns from labelled feature data. Algorithm choice depends on data type: neural networks for unstructured (images, text); gradient boosting for tabular/structured (fast, interpretable); transformers/LLMs for NLP. Distributed training parallelises across GPU clusters. Hyperparameter tuning automatically searches optimal configs.</div>
+      <div class="card-section-label">Tools & Technologies</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-red">PyTorch</span><span class="tool-chip chip-red">TensorFlow / Keras</span><span class="tool-chip chip-red">Scikit-learn</span><span class="tool-chip chip-red">XGBoost</span><span class="tool-chip chip-red">LightGBM</span><span class="tool-chip chip-red">CatBoost</span><span class="tool-chip chip-red">HuggingFace</span><span class="tool-chip chip-red">Ray Train</span><span class="tool-chip chip-red">Horovod</span><span class="tool-chip chip-red">SageMaker Training</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Hyperparameter tuning (Optuna, Ray Tune) · Cross-validation · Early stopping · Learning rate scheduling · Gradient clipping · Distributed training (data/model parallelism) · Mixed precision (FP16) · Transfer learning / fine-tuning</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- ═══════════════════════════════════════
+   PHASE 9 — EXPERIMENT TRACKING + MLOPS
+═══════════════════════════════════════ -->
+<div class="phase-header">
+  <div class="phase-num ph-teal">PHASE 9</div>
+  <div class="phase-title">Experiment Tracking, Registry & CI/CD</div>
+  <span class="phase-badge badge-new">Tracking Added</span>
+</div>
+<div class="grid-2">
+  <div class="card">
+    <div class="card-accent-bar bar-teal"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 20</div>
+      <div class="card-title">Experiment Tracking 🔥</div>
+      <div class="card-desc">Logs every training run — hyperparameters, evaluation metrics, loss curves, GPU/memory usage. Compare "Run A vs Run B vs Run C" side by side, select the best. Without this, model dev is chaotic and unreproducible. Also tracks dataset version and code commit for full reproducibility.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row"><span class="tool-chip chip-teal">MLflow</span><span class="tool-chip chip-teal">Weights & Biases</span><span class="tool-chip chip-teal">Neptune.ai</span><span class="tool-chip chip-teal">Comet ML</span></div>
+      <div class="techniques-row"><b>Techniques:</b> Auto-logging · Parameter grids · Metric comparison · Artifact storage · Reproducibility via code + data + config hashes</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-accent-bar bar-teal"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 21</div>
+      <div class="card-title">Model Registry</div>
+      <div class="card-desc">Versioned centralised store of all trained model artifacts. Manages lifecycle: Experiment → Staging → Production → Archived. One source of truth — everyone knows which model is live and why. Stores performance benchmarks and approval history. <b style="color:#5eead4;">Model Cards required here:</b> Google, Hugging Face, and Meta mandate a Model Card for every production model — a standardised document covering intended use, training data description, evaluation results across demographic groups, fairness metrics, known limitations, and environmental impact (CO₂ cost). Increasingly required by EU AI Act for high-risk AI systems. Also stores Privacy Impact Assessment for models trained on personal data.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row"><span class="tool-chip chip-teal">MLflow Registry</span><span class="tool-chip chip-teal">SageMaker Registry</span><span class="tool-chip chip-teal">BentoML</span><span class="tool-chip chip-teal">Vertex AI Model Registry</span><span class="tool-chip chip-teal">Model Card Toolkit (Google)</span></div>
+      <div class="techniques-row"><b>Techniques:</b> Stage transitions with approvals · Model comparison · Rollback · Champion-Challenger tracking · <b>Model Cards (intended use, fairness metrics, limitations)</b> · EU AI Act compliance documentation · Privacy Impact Assessment · CO₂ footprint tracking per model</div>
+    </div>
+  </div>
+</div>
+<div style="height:8px;"></div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-teal"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 22</div>
+      <div class="card-title">CI/CD Pipeline (MLOps)</div>
+      <div class="card-desc">Automates: code commit → unit tests → integration tests → model validation → staging → production. Automated gates block any model failing accuracy, latency, fairness, or bias thresholds. Infrastructure managed as code. Every deployment is tracked, auditable, reversible.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-teal">GitHub Actions</span><span class="tool-chip chip-teal">Jenkins</span><span class="tool-chip chip-teal">ArgoCD</span><span class="tool-chip chip-teal">GitLab CI</span><span class="tool-chip chip-teal">Terraform</span><span class="tool-chip chip-teal">Helm</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> Model validation gates (accuracy/latency/fairness) · Infrastructure as Code · GitOps · Environment promotion (dev→staging→prod) · Automated rollback · SHAP-based regression detection</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- ═══════════════════════════════════════
+   PHASE 10 — SERVING (ORDER FIXED)
+═══════════════════════════════════════ -->
+<div class="phase-header">
+  <div class="phase-num ph-violet">PHASE 10</div>
+  <div class="phase-title">Model Serving & Real-Time Inference</div>
+  <span class="phase-badge badge-fixed">Gateway order fixed</span>
+  <span class="phase-badge badge-new">Batch path added</span>
+</div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-violet"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 23</div>
+      <div class="card-title">API Gateway — Traffic Entry Point (sits BEFORE Deployment)</div>
+      <div class="card-desc">The front door. Handles auth (JWT/API keys), rate limiting, request routing to correct model version, load balancing, SSL termination, logging. All traffic passes here before reaching any model container. Runs continuously — not a deployment step.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row"><span class="tool-chip chip-violet">NGINX</span><span class="tool-chip chip-violet">AWS API Gateway</span><span class="tool-chip chip-violet">Kong</span><span class="tool-chip chip-violet">Traefik</span><span class="tool-chip chip-violet">Envoy Proxy</span></div>
+      <div class="techniques-row"><b>Techniques:</b> JWT auth · Rate limiting per client · Traffic routing by model version · mTLS · Request tracing (correlation IDs) · Model access control</div>
+    </div>
+  </div>
+</div>
+<div style="height:8px;"></div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-violet"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 24</div>
+      <div class="card-title">Model Deployment — Autoscaling + High Availability + Multi-Region DR 🔥</div>
+      <div class="card-desc">Model packaged as Docker container exposing REST/gRPC. K8s orchestrates multiple replicas — autoscales under high traffic, self-heals on pod crash. KServe/Seldon provide model-specific features (batching, explainability, canary). Triton optimises GPU utilisation for deep learning. Target: 99.99% uptime, &lt;100ms p99 latency. <b style="color:#c4b5fd;">Multi-Region Disaster Recovery:</b> Production systems at Google/Meta run active-active across 3+ regions. If one region fails, traffic instantly re-routes to another region in &lt;30 seconds. RTO (Recovery Time Objective) = how fast you recover; RPO (Recovery Point Objective) = how much data loss is acceptable. For ML systems: RTO &lt; 60s, RPO = 0 (no prediction loss). Global load balancer (Cloudflare/AWS Route53) handles traffic failover automatically.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row"><span class="tool-chip chip-violet">FastAPI</span><span class="tool-chip chip-violet">Docker</span><span class="tool-chip chip-violet">Kubernetes</span><span class="tool-chip chip-violet">KServe</span><span class="tool-chip chip-violet">Seldon Core</span><span class="tool-chip chip-violet">NVIDIA Triton</span><span class="tool-chip chip-violet">BentoML</span><span class="tool-chip chip-violet">AWS Route53 (failover)</span><span class="tool-chip chip-violet">Cloudflare Global LB</span></div>
+      <div class="techniques-row"><b>Techniques:</b> HPA (Horizontal Pod Autoscaling) · Resource limits / requests · Rolling updates · Dynamic batching (GPU efficiency) · Model warm-up · gRPC for low-latency · <b>Active-active multi-region deployment</b> · RTO &lt; 60s / RPO = 0 · Global load balancer with health checks · Cross-region data replication for model artifacts</div>
+    </div>
+  </div>
+</div>
+<div style="height:8px;"></div>
+<div class="grid-2">
+  <div class="card">
+    <div class="card-accent-bar bar-violet"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 25</div>
+      <div class="card-title">Caching Layer</div>
+      <div class="card-desc">Stores recent prediction results keyed by input hash. Identical requests return cached results instantly — no model computation needed. Cuts latency 10–50x and inference costs significantly for repetitive queries.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row"><span class="tool-chip chip-violet">Redis</span><span class="tool-chip chip-violet">Memcached</span><span class="tool-chip chip-violet">AWS ElastiCache</span></div>
+      <div class="techniques-row"><b>Techniques:</b> TTL-based expiry · Input hashing · Cache warming · LRU eviction · Hit rate monitoring</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-accent-bar bar-violet"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 26</div>
+      <div class="card-title">Real-Time Inference Engine</div>
+      <div class="card-desc">Fetch live features from Online Store → assemble feature vector → run model → post-process output → return prediction. Must complete in &lt;100ms for user-facing apps. Feature freshness critical — stale features = stale predictions.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row"><span class="tool-chip chip-violet">Online Feature Store</span><span class="tool-chip chip-violet">ONNX Runtime</span><span class="tool-chip chip-violet">TensorRT</span></div>
+      <div class="techniques-row"><b>Techniques:</b> Model quantisation (INT8) · ONNX serving · Pre/post-processing pipelines · Timeout & fallback · p99 latency tracking</div>
+    </div>
+  </div>
+</div>
+<div style="height:8px;"></div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-violet"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 27</div>
+      <div class="card-title">Model Explainability Layer — SHAP / LIME Dashboards + Explanation API</div>
+      <div class="card-desc">
+        <b style="color:#c4b5fd;">Why this exists:</b> A model that says "denied" without a reason is legally unusable in finance, healthcare, and insurance. SHAP (SHapley Additive exPlanations) assigns a contribution score to each feature for every prediction — e.g. "income: +0.42, age: −0.18, credit_history: +0.31 → fraud_score: 0.87". LIME approximates the model locally with a simpler interpretable model around any single prediction.
+        <br/><br/><b style="color:#c4b5fd;">Prediction Explanation API:</b> A dedicated REST endpoint that, alongside any prediction, returns a human-readable explanation: which features drove the decision, in what direction, and by how much. The frontend consumes this API to show customers why they were approved/denied. Compliance teams audit it. Regulators require it.
+        <br/><br/><b style="color:#c4b5fd;">SHAP Dashboards:</b> Global dashboard shows overall model behaviour — which features matter most across all predictions. Local dashboard shows individual prediction explanations. Fairness dashboard overlays SHAP values by demographic group to detect discriminatory feature usage. Run continuously in production — not just at training time. Required for EU AI Act high-risk systems.
+      </div>
+      <div class="card-section-label">Tools & Technologies</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-violet">SHAP (TreeExplainer / DeepExplainer)</span>
+        <span class="tool-chip chip-violet">LIME</span>
+        <span class="tool-chip chip-violet">Alibi Explain</span>
+        <span class="tool-chip chip-violet">Fairlearn</span>
+        <span class="tool-chip chip-violet">IBM AI Fairness 360</span>
+        <span class="tool-chip chip-violet">What-If Tool (Google)</span>
+        <span class="tool-chip chip-violet">InterpretML (Microsoft)</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> SHAP TreeExplainer (tree models) · SHAP DeepExplainer (neural nets) · SHAP KernelExplainer (model-agnostic) · LIME local approximations · Counterfactual explanations ("what would need to change for approval?") · Disparate impact analysis · Demographic parity · Equal opportunity metrics · Global vs local explainability · SHAP waterfall plots · Force plots · Beeswarm plots for dashboard · Prediction explanation REST API endpoint · Explanation caching for latency</div>
+    </div>
+  </div>
+</div>
+<div style="height:8px;"></div>
+<div class="grid-1">
+  <div class="card">
+    <div class="card-accent-bar bar-violet"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 28</div>
+      <div class="card-title">A/B Testing System + Safe Deployment Strategy</div>
+      <div class="card-desc">
+        <b style="color:#c4b5fd;">A/B Testing System — Never Deploy Blind:</b> Split production traffic between Model A (champion, current) and Model B (challenger, new). Real users are randomly assigned to each variant. Measure real business metrics — not just accuracy: click-through rate, conversion, revenue per user, fraud caught, churn reduced. Statistical significance testing (p-value &lt; 0.05, minimum detectable effect defined upfront) ensures the winner is not by chance. This is how Netflix, Uber, and Airbnb validate every model before full rollout.
+        <br/><br/><b style="color:#c4b5fd;">Traffic Split Strategies:</b> Canary = 5% to new model, watch p95/p99 latency + error rate for 30 min before expanding. Shadow = new model runs on 100% of traffic but its predictions are NOT served to users — output logged for comparison only. Blue-Green = full switch with instant rollback capability. Feature Flags = control which user segments see which model without code deployment.
+        <br/><br/><b style="color:#c4b5fd;">Auto-Rollback:</b> Grafana alert fires → Argo Rollouts automatically reverts to previous model version within 60 seconds if: error rate spikes, p99 latency exceeds threshold, business KPI drops below baseline.
+      </div>
+      <div class="card-section-label">Tools & Technologies</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-violet">Optimizely</span>
+        <span class="tool-chip chip-violet">GrowthBook (open source)</span>
+        <span class="tool-chip chip-violet">Argo Rollouts</span>
+        <span class="tool-chip chip-violet">Flagger</span>
+        <span class="tool-chip chip-violet">Istio traffic splitting</span>
+        <span class="tool-chip chip-violet">LaunchDarkly (feature flags)</span>
+        <span class="tool-chip chip-violet">AWS CodeDeploy</span>
+        <span class="tool-chip chip-violet">Statsig</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> A/B testing (p-value &lt; 0.05, power analysis) · Minimum Detectable Effect (MDE) upfront definition · Multi-armed bandit (explore/exploit) · Canary analysis (5%→25%→50%→100%) · Shadow / dark launch · Blue-green deployment · Feature flags per user segment · Automated rollback on metric regression · Interleaving (ranking model comparison) · CUPED variance reduction · Sequential testing for faster decisions</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- ═══════════════════════════════════════
+   PHASE 11 — MONITORING (SPLIT)
+═══════════════════════════════════════ -->
+<div class="phase-header">
+  <div class="phase-num ph-lime">PHASE 11</div>
+  <div class="phase-title">Monitoring & Observability</div>
+  <span class="phase-badge badge-fixed">Split: System + Model + Cost</span>
+</div>
+<div class="grid-3">
+  <div class="card">
+    <div class="card-accent-bar bar-lime"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 29A</div>
+      <div class="card-title">System Monitoring + SLO / Error Budget Framework</div>
+      <div class="card-desc">Tracks infrastructure health: CPU, memory, GPU utilisation, request latency (p50/p95/p99), throughput (RPS), error rates (4xx/5xx), pod crash rates. <b style="color:#bef264;">Google SRE SLO Framework applied:</b> Define SLO (Service Level Objective) — e.g. "99.9% of predictions served in &lt;100ms". Error Budget = 100% − SLO = 0.1% downtime allowed per month (~43 min). When error budget is consumed, engineering freeze on new features — only reliability work. SLI (Service Level Indicator) measures actual performance against SLO. PagerDuty fires when error budget burn rate is 2× expected. <b>Backpressure handling:</b> when downstream consumer is slower than Kafka producer, consumer lag builds. KEDA autoscales consumers based on lag. Credit-based flow control in Flink prevents OOM crashes.</div>
+      <div class="card-section-label">Tools</div>
+      <div class="tools-row"><span class="tool-chip chip-lime">Prometheus</span><span class="tool-chip chip-lime">Grafana</span><span class="tool-chip chip-lime">Datadog</span><span class="tool-chip chip-lime">ELK Stack</span><span class="tool-chip chip-lime">PagerDuty</span><span class="tool-chip chip-lime">OpsGenie</span></div>
+      <div class="techniques-row"><b>Techniques:</b> <b>SLO/SLI/Error Budget (Google SRE framework)</b> · p99 latency tracking · Error budget burn rate alerts · Log aggregation · Distributed tracing · Anomaly detection · <b>Backpressure detection (Kafka consumer lag → KEDA autoscale)</b> · Credit-based flow control in Flink · Multi-window alerting (fast + slow burn)</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-accent-bar bar-lime"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 29B</div>
+      <div class="card-title">Model Monitoring + Online Inference Monitoring (Real-Time)</div>
+      <div class="card-desc">
+        <b style="color:#bef264;">Why training metrics ≠ production reality:</b> A model that achieves 95% accuracy on the test set can silently degrade to 60% in production — and you'll only notice when revenue drops. Online inference monitoring is the production safety net.
+        <br/><br/><b style="color:#bef264;">Drift Detection:</b> Data Drift = the statistical distribution of input features has shifted (new user demographics, seasonal patterns, feature pipeline bug). Concept Drift = the relationship between inputs and outputs has changed (fraud patterns evolved, market changed). Both degrade model performance at different rates. PSI (Population Stability Index) &gt; 0.2 triggers alert. KS-test detects distribution shift with p-value threshold. CUSUM detects gradual concept drift before it becomes critical.
+        <br/><br/><b style="color:#bef264;">Online Inference Monitoring (Real-time):</b> Track prediction distribution shift — if the model was predicting 30% high-risk yesterday and 70% high-risk today without any feature change, something is wrong. Track p95/p99 prediction latency. Track error rates (model returning null, timeout, exception). Track feature value distributions at inference time against training distributions. Alert within 60 seconds of anomaly.
+        <br/><br/><b style="color:#bef264;">Auto-Retraining Trigger:</b> When PSI &gt; 0.2 OR accuracy drops below SLA → Airflow DAG fires automatically → retraining pipeline starts (goes back to Step 16 Feature Engineering). Zero manual intervention.
+      </div>
+      <div class="card-section-label">Tools & Technologies</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-lime">Evidently AI</span>
+        <span class="tool-chip chip-lime">WhyLabs</span>
+        <span class="tool-chip chip-lime">Arize AI</span>
+        <span class="tool-chip chip-lime">Fiddler AI</span>
+        <span class="tool-chip chip-lime">Prometheus + Grafana</span>
+        <span class="tool-chip chip-lime">Datadog ML Monitoring</span>
+        <span class="tool-chip chip-lime">NannyML</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> PSI (Population Stability Index, threshold &gt;0.2) · KS-test for distribution shift · KL divergence · CUSUM for gradual concept drift · Chi-squared test for categorical drift · <b>Prediction distribution tracking (real-time)</b> · <b>p95/p99 inference latency tracking</b> · Feature value monitoring at inference time · Ground truth delayed label pipeline · Model accuracy estimation without labels (CBPE) · Anomaly detection on prediction outputs · SLA-based auto-retraining trigger</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-accent-bar bar-lime"></div>
+    <div class="card-inner">
+      <div class="step-tag">STEP · 29C</div>
+      <div class="card-title">Cost Monitoring + GPU Optimization (FinOps)</div>
+      <div class="card-desc">
+        <b style="color:#bef264;">ML infra burns money fast — track everything:</b> Cost per prediction is the most important ML cost metric — if each prediction costs $0.001 and you serve 10M/day, that's $10K/day. GPU instances left running idle overnight cost $50K/month doing nothing.
+        <br/><br/><b style="color:#bef264;">GPU Utilisation Tracking:</b> NVIDIA GPU utilisation should stay above 70% during training. If it's at 20%, your data pipeline is the bottleneck — not the GPU. Profile with NVIDIA Nsight. Right-size instances — don't use A100 ($4/hr) when T4 ($0.35/hr) is sufficient for the model size. Use MIG (Multi-Instance GPU) on A100 to share one GPU across multiple small models simultaneously.
+        <br/><br/><b style="color:#bef264;">Idle Resource Detection:</b> Automated policy: K8s pods idle &gt; 15 minutes → scale to zero. Jupyter notebooks left running → auto-shutdown after 1hr. Spot instance interruption → graceful checkpoint save → restart from checkpoint on new spot. Reserved capacity for serving (predictable load) + Spot for training (interruptible OK).
+        <br/><br/><b style="color:#bef264;">Cost Attribution:</b> Tag every resource: team, project, model_name, environment. Weekly cost report per model. Cost anomaly alerts fire when a job's spend is 2× its 7-day average. Budget enforcement: hard cap prevents runaway training jobs.
+      </div>
+      <div class="card-section-label">Tools & Technologies</div>
+      <div class="tools-row">
+        <span class="tool-chip chip-lime">Kubecost</span>
+        <span class="tool-chip chip-lime">OpenCost</span>
+        <span class="tool-chip chip-lime">AWS Cost Explorer</span>
+        <span class="tool-chip chip-lime">Infracost</span>
+        <span class="tool-chip chip-lime">NVIDIA Nsight (GPU profiler)</span>
+        <span class="tool-chip chip-lime">Datadog Cost Management</span>
+        <span class="tool-chip chip-lime">Spot.io</span>
+      </div>
+      <div class="techniques-row"><b>Techniques:</b> <b>Cost per prediction tracking</b> · <b>GPU utilisation monitoring (target &gt;70%)</b> · <b>Idle resource auto-shutdown policies</b> · Spot/Preemptible with checkpoint restart · Reserved instances for serving · MIG (Multi-Instance GPU) for A100 sharing · NVIDIA Nsight profiling · Cost tagging per team/model/env · Anomaly alerts (2× 7-day average) · Budget hard caps · Rightsizing recommendations · Data transfer cost optimisation</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><div class="arrow-inner"><div class="arrow-line2"></div><div class="arrow-head"></div></div></div>
+
+<!-- ═══════════════════════════════════════
+   PHASE 12 — FEEDBACK LOOP (ADDED - VERY IMPORTANT)
+═══════════════════════════════════════ -->
+<div class="phase-header">
+  <div class="phase-num ph-green">PHASE 12</div>
+  <div class="phase-title">🔁 Feedback Loop — Retraining Pipeline</div>
+  <span class="phase-badge badge-new">ADDED — Without this, no real production ML</span>
+  <span class="phase-badge badge-critical">VERY IMPORTANT</span>
+</div>
+
+<div class="special-section s-feedback">
+  <div class="special-header">
+    <div class="special-icon">🔁</div>
+    <div>
+      <div class="special-title">Complete Feedback Loop — The Heartbeat of Production ML</div>
+      <div class="special-subtitle">Model predictions → User feedback → Drift detection → Retraining → New model → Back to production. Without this loop, models degrade silently and become useless. This IS the difference between a demo and a real production system.</div>
+    </div>
+  </div>
+  <div class="special-body">
+    <div class="special-grid special-grid-2" style="margin-bottom:10px;">
+      <div class="sub-card">
+        <div class="sub-num">STEP 30A — LABEL GENERATION PIPELINE (GROUND TRUTH)</div>
+        <div class="sub-title">🏷️ Delayed Labels + Feedback Ingestion</div>
+        <div class="sub-desc">
+          <b>Why this is critical:</b> Model cannot learn without correct labels — and labels are often not available at prediction time. Fraud is confirmed 3 days after the transaction. A user clicks an ad hours later. A delivery succeeds or fails the next day. This is called delayed labelling and it requires a dedicated pipeline.<br/><br/>
+          <b>Label Generation Pipeline:</b><br/>
+          1. Prediction logged with timestamp + prediction ID → stored in label store<br/>
+          2. Ground truth event arrives later (fraud confirmed, click logged, delivery status updated)<br/>
+          3. Joiner service matches prediction to ground truth by prediction ID<br/>
+          4. Joined record (features + label) written to training data store<br/>
+          5. Label validation: reject noisy labels, handle class imbalance, check label rate drift<br/>
+          6. Labelled data flows into next retraining cycle automatically<br/><br/>
+          <b>Without this:</b> You have no ground truth → training data is stale → model cannot improve → model silently degrades.
+        </div>
+        <div class="sub-tools"><span>Kafka topic (predictions)</span><span>Label store (DynamoDB)</span><span>Label Studio</span><span>Scale AI</span><span>Labelbox</span><span>Snorkel (weak supervision)</span><span>Prediction-label joiner service</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">STEP 30B — DRIFT DETECTION + AUTO RETRAINING TRIGGER</div>
+        <div class="sub-title">🚨 Data Drift + Concept Drift → Auto-Trigger</div>
+        <div class="sub-desc">
+          <b>You MUST know when the model becomes useless:</b> Models silently degrade — business loses money before anyone notices without this.<br/><br/>
+          <b>Data Drift (input changes):</b> The distribution of features fed to the model has shifted. Example: your fraud model was trained on desktop users, but mobile users now dominate — different behavioural patterns. PSI &gt; 0.2 = significant drift → trigger alert. KS-test detects distribution shift with p-value. Chi-squared for categorical features.<br/><br/>
+          <b>Concept Drift (relationship changes):</b> The same inputs now map to different outputs — the world changed but the model didn't. Example: fraud patterns changed after a new attack vector emerged. CUSUM algorithm detects gradual drift before it becomes critical. Page-Hinkley test for abrupt drift.<br/><br/>
+          <b>Auto-Retraining Trigger:</b> PSI &gt; 0.2 → Prometheus alert → Airflow DAG fires → full retraining pipeline starts at Step 16 (Feature Engineering). No human needed.
+        </div>
+        <div class="sub-tools"><span>Evidently AI</span><span>WhyLabs</span><span>Arize AI</span><span>NannyML</span><span>Prometheus alerts</span><span>Airflow (trigger DAG)</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">STEP 30C — RETRAINING PIPELINE (LOOP → STEP 16)</div>
+        <div class="sub-title">⚙️ Full Automated Retraining Cycle</div>
+        <div class="sub-desc">
+          When drift trigger fires OR weekly schedule fires OR label store accumulates N new labelled examples:<br/><br/>
+          1. Pull fresh features from Feature Store (Step 16 — not just raw data)<br/>
+          2. Join with new ground truth labels from label store<br/>
+          3. Run data quality validation on training set<br/>
+          4. Version the new training dataset (DVC / LakeFS)<br/>
+          5. Train new model with same hyperparameter config<br/>
+          6. Run full CI/CD validation gates (accuracy, latency, fairness)<br/>
+          7. Champion vs Challenger shadow evaluation<br/>
+          8. If Challenger wins → canary deploy → full promote<br/>
+          9. If Challenger loses → archive, investigate, alert team<br/><br/>
+          Zero manual intervention for the entire cycle.
+        </div>
+        <div class="sub-tools"><span>Apache Airflow</span><span>Kubeflow Pipelines</span><span>Prefect</span><span>Dagster</span><span>SageMaker Pipelines</span><span>MLflow (tracking)</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">STEP 30D — CHAMPION-CHALLENGER EVALUATION</div>
+        <div class="sub-title">🏆 New Model Must Earn Production</div>
+        <div class="sub-desc">
+          New (Challenger) model never goes straight to production. Evaluation process:<br/><br/>
+          <b>Shadow mode (0% traffic impact):</b> Challenger runs on 100% of requests, logs predictions — none served to users. Compare outputs vs Champion. If outputs agree 95%+ → safe signal.<br/><br/>
+          <b>Canary mode (5% real traffic):</b> 5% of users see Challenger predictions. Monitor for 30 min: error rate, latency p99, business KPI (CTR, conversion, fraud caught). If all green → expand to 25% → 50% → 100%.<br/><br/>
+          <b>Automatic rollback:</b> Any metric degradation → Argo Rollouts reverts to Champion in &lt;60 seconds. Challenger archived with full investigation report.<br/><br/>
+          <b>Gates Challenger must pass:</b> Accuracy ≥ Champion · Latency p99 ≤ Champion · Fairness gap ≤ threshold · Business KPI ≥ baseline.
+        </div>
+        <div class="sub-tools"><span>MLflow Registry (stage promotion)</span><span>Weights & Biases</span><span>Argo Rollouts</span><span>Flagger</span><span>Optimizely</span><span>GrowthBook</span></div>
+      </div>
+    </div>
+    <div style="background:rgba(52,201,122,0.08); border:1px solid rgba(52,201,122,0.2); border-radius:8px; padding:10px 14px; font-size:10.5px; color:rgba(160,230,190,0.9); line-height:1.6;">
+      <b style="color:#6ee7a0;">↩ Full Retraining Loop:</b> Drift Detected (Step 30B) → Label Store has new ground truth (Step 30A) → Retraining fires at Step 16 (Feature Engineering) — NOT Step 19 — stale features produce stale models even with fresh training data → Step 18 Data versioning → Step 19 Training → Step 20 Experiment Tracking → Step 22 CI/CD Gates → Step 30D Champion-Challenger → Step 28 Canary → Step 29B Model Monitoring → repeat forever.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+   PARALLEL PATH A — REAL-TIME STREAMING
+═══════════════════════════════════════ -->
+<div class="phase-header" style="margin-top:24px;">
+  <div class="phase-num ph-orange">PATH A</div>
+  <div class="phase-title">⚡ Real-Time Streaming Inference</div>
+  <span class="phase-badge badge-critical">Separate from batch</span>
+</div>
+<div class="special-section s-stream">
+  <div class="special-header">
+    <div class="special-icon">⚡</div>
+    <div>
+      <div class="special-title">Real-Time Streaming Path — &lt;100ms End-to-End</div>
+      <div class="special-subtitle" style="color:rgba(253,186,116,0.85)">Runs independently alongside the batch pipeline. Fraud detection, risk scoring, live recommendations. Kafka → Flink → Feature Lookup → Model → Output. Clear separation from batch inference.</div>
+    </div>
+  </div>
+  <div class="special-body">
+    <div class="special-grid special-grid-3">
+      <div class="sub-card">
+        <div class="sub-num">① KAFKA EVENT STREAM</div>
+        <div class="sub-title">Event arrives in real time</div>
+        <div class="sub-desc">User transaction or action arrives as a Kafka event. No batch window — every event processed individually as it arrives.</div>
+        <div class="sub-tools"><span>Apache Kafka</span><span>Confluent</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">② STREAM PROCESSING</div>
+        <div class="sub-title">Filter, enrich, aggregate</div>
+        <div class="sub-desc">Filter noise, join with reference data, compute windowed aggregations in milliseconds. Stateful processing for session-level features.</div>
+        <div class="sub-tools"><span>Apache Flink</span><span>Spark Streaming</span><span>KSQL</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">③ FEATURE LOOKUP</div>
+        <div class="sub-title">Online Store — &lt;5ms</div>
+        <div class="sub-desc">Fetch precomputed features from Online Store. Must return in &lt;5ms to meet the overall 100ms latency budget.</div>
+        <div class="sub-tools"><span>Redis Feature Store</span><span>DynamoDB</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">④ MODEL INFERENCE</div>
+        <div class="sub-title">Predict on assembled vector</div>
+        <div class="sub-desc">Run model on feature vector. Post-process output (thresholding, calibration). Return decision within SLA.</div>
+        <div class="sub-tools"><span>KServe</span><span>Triton</span><span>ONNX Runtime</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">⑤ OUTPUT / ACTION</div>
+        <div class="sub-title">Fraud alert · Risk score</div>
+        <div class="sub-desc">Fraud alert fired · Transaction blocked · Live recommendation shown · Risk score returned · Push notification triggered.</div>
+        <div class="sub-tools"><span>Kafka output topic</span><span>REST callback</span><span>SNS/SQS</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">⑥ FEEDBACK TO LAKE</div>
+        <div class="sub-title">Prediction logged as training data</div>
+        <div class="sub-desc">Prediction outcomes (confirmed fraud? clicked recommendation?) logged back to Data Lake as labelled training data for next retraining cycle.</div>
+        <div class="sub-tools"><span>Kafka → S3</span><span>Label store</span><span>DVC</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+   PARALLEL PATH B — BATCH INFERENCE
+═══════════════════════════════════════ -->
+<div class="phase-header" style="margin-top:16px;">
+  <div class="phase-num ph-violet">PATH B</div>
+  <div class="phase-title">🌙 Batch Inference</div>
+  <span class="phase-badge badge-new">NEW — Separate from real-time</span>
+</div>
+<div class="special-section s-batch">
+  <div class="special-header">
+    <div class="special-icon">🌙</div>
+    <div>
+      <div class="special-title">Batch Inference Path — Overnight Scoring</div>
+      <div class="special-subtitle" style="color:rgba(196,181,253,0.85)">Churn prediction, next-day recommendations, credit scoring, email personalisation. Score millions of entities overnight. Store results in DB — app reads pre-computed scores at zero latency.</div>
+    </div>
+  </div>
+  <div class="special-body">
+    <div class="special-grid special-grid-3">
+      <div class="sub-card">
+        <div class="sub-num">① PULL INFERENCE DATASET</div>
+        <div class="sub-title">All entities to be scored</div>
+        <div class="sub-desc">Query Feature Store or Warehouse for all active users, open accounts, products. Build scoring dataset with current features.</div>
+        <div class="sub-tools"><span>Spark</span><span>BigQuery</span><span>Snowflake</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">② BATCH SCORING</div>
+        <div class="sub-title">Millions of rows in parallel</div>
+        <div class="sub-desc">Run model on entire dataset using vectorised prediction. Optimise with GPU batching. One prediction per entity row.</div>
+        <div class="sub-tools"><span>SageMaker Batch Transform</span><span>Spark MLlib</span><span>Ray</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">③ STORE & SERVE</div>
+        <div class="sub-title">Pre-computed scores in DB</div>
+        <div class="sub-desc">Write predictions to database. App reads pre-computed scores instantly — zero model call at runtime. Schedule: nightly or hourly.</div>
+        <div class="sub-tools"><span>DynamoDB</span><span>Redis</span><span>PostgreSQL</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+   LLMOps
+═══════════════════════════════════════ -->
+<div class="phase-header" style="margin-top:16px;">
+  <div class="phase-num ph-cyan">PATH C</div>
+  <div class="phase-title">🤖 LLMOps — Parallel Track for Large Language Models</div>
+  <span class="phase-badge badge-new">NEW 2025</span>
+</div>
+<div class="special-section s-llm">
+  <div class="special-header">
+    <div class="special-icon">🤖</div>
+    <div>
+      <div class="special-title">LLMOps Track — Runs Alongside Classical ML Pipeline</div>
+      <div class="special-subtitle" style="color:rgba(103,232,249,0.85)">Top companies now run two ML tracks simultaneously. LLMOps handles prompt engineering, fine-tuning, RLHF, LLM evaluation — complementing the classical pipeline above.</div>
+    </div>
+  </div>
+  <div class="special-body">
+    <div class="special-grid special-grid-3">
+      <div class="sub-card">
+        <div class="sub-num">LLM · 01</div>
+        <div class="sub-title">Prompt Versioning & Management</div>
+        <div class="sub-desc">Version and track every prompt like code. A/B test prompt variants. Log inputs, outputs, and latency. Essential for reproducibility.</div>
+        <div class="sub-tools"><span>LangSmith</span><span>Weights & Biases LLM</span><span>PromptLayer</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">LLM · 02</div>
+        <div class="sub-title">Fine-tuning & RLHF</div>
+        <div class="sub-desc">Fine-tune base LLMs on domain-specific data. RLHF aligns model with human preferences via reward model training.</div>
+        <div class="sub-tools"><span>HuggingFace</span><span>Vertex AI</span><span>Azure OpenAI</span><span>TRL</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">LLM · 03</div>
+        <div class="sub-title">RAG Pipeline</div>
+        <div class="sub-desc">Retrieval-Augmented Generation: fetch relevant documents from Vector Store, inject into prompt context. Reduces hallucination dramatically.</div>
+        <div class="sub-tools"><span>LangChain</span><span>LlamaIndex</span><span>Pinecone</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">LLM · 04</div>
+        <div class="sub-title">LLM Evaluation</div>
+        <div class="sub-desc">Evaluate LLM outputs on: faithfulness, answer relevancy, toxicity, hallucination rate. Automated eval on every model version.</div>
+        <div class="sub-tools"><span>RAGAS</span><span>DeepEval</span><span>TruLens</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">LLM · 05</div>
+        <div class="sub-title">LLM Gateway & Safety</div>
+        <div class="sub-desc">Rate limiting, content moderation, PII redaction, cost tracking per request. Guards against prompt injection and jailbreaks.</div>
+        <div class="sub-tools"><span>LiteLLM</span><span>Portkey</span><span>Azure Content Safety</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">LLM · 06</div>
+        <div class="sub-title">Feedback Loop (LLM)</div>
+        <div class="sub-desc">User corrections, thumbs-down signals, preference labels fed back to RLHF training pipeline. Continuous improvement loop.</div>
+        <div class="sub-tools"><span>Label Studio</span><span>Scale AI</span><span>RLHF pipeline</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+   LEGEND
+═══════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════
+   NEW 1 — FULL OBSERVABILITY LAYER
+═══════════════════════════════════════ -->
+<div class="phase-header" style="margin-top:24px;">
+  <div class="phase-num ph-amber">PHASE 13</div>
+  <div class="phase-title">🔭 Full Observability Layer — Logs + Metrics + Traces</div>
+  <span class="phase-badge badge-new">ADDED — Debugging foundation</span>
+</div>
+
+<div class="special-section" style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.25);border-radius:12px;">
+  <div class="special-header" style="background:rgba(245,158,11,0.08);">
+    <div class="special-icon">🔭</div>
+    <div>
+      <div class="special-title">Three Pillars of Observability — Logs, Metrics, Traces</div>
+      <div class="special-subtitle" style="color:rgba(253,211,77,0.85);">Without full observability → debugging nightmare. Monitoring tells you WHAT is broken. Observability tells you WHY. Every production system at Google, Meta, Netflix uses all three pillars together with OpenTelemetry as the unified standard.</div>
+    </div>
+  </div>
+  <div class="special-body">
+    <div class="special-grid special-grid-3">
+      <div class="sub-card">
+        <div class="sub-num">PILLAR 1 — LOGS</div>
+        <div class="sub-title">Structured Event Logs</div>
+        <div class="sub-desc">Every pipeline step, API call, model prediction, and data transformation emits structured logs (JSON). Centrally aggregated, indexed, and searchable. Enables root-cause analysis in seconds — not hours of SSH-ing into servers.</div>
+        <div class="sub-tools"><span>Elasticsearch</span><span>Logstash</span><span>Kibana (ELK)</span><span>OpenSearch</span><span>AWS CloudWatch Logs</span><span>Fluentd</span><span>Loki</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">PILLAR 2 — METRICS</div>
+        <div class="sub-title">Time-Series Metrics</div>
+        <div class="sub-desc">Numerical measurements over time: request count, latency percentiles (p50/p95/p99), error rate, CPU/GPU/memory utilisation, queue depth, feature freshness age. SLO/SLA alerting fires PagerDuty when thresholds breach.</div>
+        <div class="sub-tools"><span>Prometheus</span><span>Grafana</span><span>Datadog</span><span>VictoriaMetrics</span><span>AWS CloudWatch Metrics</span><span>StatsD</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">PILLAR 3 — TRACES</div>
+        <div class="sub-title">Distributed Request Tracing</div>
+        <div class="sub-desc">Follows a single prediction request across every microservice it touches — API Gateway → Feature Store → Model → Cache → Response. Shows exactly where latency is introduced. Essential for debugging slow predictions in a distributed system.</div>
+        <div class="sub-tools"><span>OpenTelemetry (OTel)</span><span>Jaeger</span><span>Zipkin</span><span>AWS X-Ray</span><span>Datadog APM</span><span>Grafana Tempo</span></div>
+      </div>
+    </div>
+    <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:10px 14px;margin-top:10px;font-size:10.5px;color:rgba(253,211,77,0.9);line-height:1.6;">
+      <b style="color:#fbbf24;">OpenTelemetry (OTel) is the unified standard</b> — instrument once, export to any backend (Jaeger, Zipkin, Datadog, Grafana). Adopted by Google, Microsoft, AWS. Replaces vendor-specific SDKs. Every new ML service should be instrumented with OTel from day one.
+      <br/><b style="color:#fbbf24;">Techniques:</b> Correlation IDs across services · Span-level latency breakdown · Log-metric-trace correlation (unified observability) · Sampling strategies (head/tail) · SLO burn rate alerts · Error budget tracking · Anomaly detection on metrics
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+   NEW 2 — COST OPTIMIZATION LAYER
+═══════════════════════════════════════ -->
+<div class="phase-header" style="margin-top:20px;">
+  <div class="phase-num ph-green">PHASE 14</div>
+  <div class="phase-title">💸 Cost Optimization Layer — FinOps + Auto-scaling + Retention</div>
+  <span class="phase-badge badge-new">ADDED — FAANG MUST-HAVE</span>
+</div>
+
+<div class="special-section" style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.25);border-radius:12px;">
+  <div class="special-header" style="background:rgba(16,185,129,0.08);">
+    <div class="special-icon">💸</div>
+    <div>
+      <div class="special-title">Cost Optimization — Production's Biggest Real-World Problem</div>
+      <div class="special-subtitle" style="color:rgba(110,231,183,0.85);">In system design interviews, cost is always asked. In production, it's always painful. A single badly-configured Spark job or forgotten GPU cluster can generate a $50K cloud bill overnight. Cost must be treated as a first-class engineering metric — not an afterthought.</div>
+    </div>
+  </div>
+  <div class="special-body">
+    <div class="special-grid special-grid-3">
+      <div class="sub-card">
+        <div class="sub-num">COST OPT · 01</div>
+        <div class="sub-title">Spot / Preemptible Instances</div>
+        <div class="sub-desc">Use AWS Spot or GCP Preemptible VMs for training workloads — up to 90% cheaper than on-demand. Must handle interruptions gracefully via checkpointing. Non-interruptible serving uses Reserved Instances (40–60% cheaper than on-demand).</div>
+        <div class="sub-tools"><span>AWS Spot Instances</span><span>GCP Preemptible VMs</span><span>Azure Spot VMs</span><span>Ray autoscaler</span><span>SageMaker Spot Training</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">COST OPT · 02</div>
+        <div class="sub-title">Cost-Aware Auto-scaling Policies</div>
+        <div class="sub-desc">Scale DOWN aggressively during off-peak hours. Scale UP from Spot pool during peak. KEDA scales Kubernetes pods based on Kafka lag (scale to zero when no traffic). Right-size GPU instances — don't use A100 when T4 is sufficient.</div>
+        <div class="sub-tools"><span>KEDA (Kafka-based autoscaler)</span><span>K8s HPA/VPA/KEDA</span><span>AWS Auto Scaling Groups</span><span>Karpenter</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">COST OPT · 03</div>
+        <div class="sub-title">Data Retention Policies</div>
+        <div class="sub-desc">Raw data stored indefinitely = massive cost. Define tiered retention: hot tier (30 days, SSD), warm tier (90 days, S3 Standard), cold tier (1 year, S3 Glacier), archive (S3 Deep Archive, $0.00099/GB/month). Automated lifecycle rules move data automatically.</div>
+        <div class="sub-tools"><span>S3 Lifecycle Policies</span><span>AWS Glacier</span><span>Azure Archive Storage</span><span>GCS Coldline</span><span>dbt data retention models</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">COST OPT · 04</div>
+        <div class="sub-title">Query Cost Optimization</div>
+        <div class="sub-desc">Snowflake / BigQuery queries can cost $10K+ per day if unoptimised. Materialized views cache expensive aggregations. Query result caching prevents re-running identical queries. Partition pruning reduces bytes scanned by 95%+.</div>
+        <div class="sub-tools"><span>Snowflake Query Tags</span><span>BigQuery Slot Reservations</span><span>Materialized Views</span><span>Query result cache</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">COST OPT · 05</div>
+        <div class="sub-title">FinOps Tracking & Alerting</div>
+        <div class="sub-desc">Tag every cloud resource with team, project, model name, environment. Cost anomaly alerts fire when a job's spend is 2× its daily average. Per-prediction cost metric tracked alongside accuracy — cost is a model quality attribute.</div>
+        <div class="sub-tools"><span>AWS Cost Explorer</span><span>Kubecost</span><span>OpenCost</span><span>Infracost</span><span>Datadog Cost Management</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">COST OPT · 06</div>
+        <div class="sub-title">Model Efficiency Optimization</div>
+        <div class="sub-desc">Smaller model = lower inference cost per prediction. Quantisation (INT8/INT4) reduces model size 4–8× with &lt;1% accuracy loss. Distillation trains a small student model to mimic a large teacher. ONNX export removes framework overhead.</div>
+        <div class="sub-tools"><span>Model quantisation (INT8)</span><span>Knowledge distillation</span><span>ONNX export</span><span>TensorRT optimization</span><span>Pruning</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+   NEW 3 — DATA ACCESS / REVERSE ETL
+═══════════════════════════════════════ -->
+<div class="phase-header" style="margin-top:20px;">
+  <div class="phase-num ph-cyan">PHASE 15</div>
+  <div class="phase-title">🔌 Data Access Layer — Reverse ETL & Serving APIs</div>
+  <span class="phase-badge badge-new">ADDED — Warehouse → Apps path</span>
+</div>
+
+<div class="special-section" style="background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.25);border-radius:12px;">
+  <div class="special-header" style="background:rgba(6,182,212,0.08);">
+    <div class="special-icon">🔌</div>
+    <div>
+      <div class="special-title">Data Access Layer — Getting Data FROM the Warehouse INTO Applications</div>
+      <div class="special-subtitle" style="color:rgba(103,232,249,0.85);">The ETL pipeline moves data INTO the warehouse. Reverse ETL moves insights FROM the warehouse BACK into operational tools — CRM, marketing platforms, product databases. Data APIs expose warehouse data to apps without direct DB access. Missing from most pipeline diagrams.</div>
+    </div>
+  </div>
+  <div class="special-body">
+    <div class="special-grid special-grid-3">
+      <div class="sub-card">
+        <div class="sub-num">ACCESS · 01</div>
+        <div class="sub-title">Reverse ETL — Warehouse to Apps</div>
+        <div class="sub-desc">Syncs computed insights from the Data Warehouse back into operational tools. Example: churn scores computed in BigQuery → synced to Salesforce CRM → sales team sees at-risk customers. Closes the loop between analytics and action without engineers writing custom integrations.</div>
+        <div class="sub-tools"><span>Hightouch</span><span>Census</span><span>Polytomic</span><span>dbt + Fivetran reverse</span><span>Segment Reverse ETL</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">ACCESS · 02</div>
+        <div class="sub-title">Data APIs — Serving Layer for Analytics</div>
+        <div class="sub-desc">Exposes warehouse data to internal apps, dashboards, and third-party systems via REST or GraphQL APIs. Abstracts the underlying storage — app doesn't need to know if data is in BigQuery, Snowflake, or S3. Row-level security enforced at API layer.</div>
+        <div class="sub-tools"><span>GraphQL (Hasura)</span><span>REST APIs (FastAPI)</span><span>Cube.dev (semantic layer)</span><span>Metabase API</span><span>dbt Semantic Layer</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">ACCESS · 03</div>
+        <div class="sub-title">BI & Analytics Serving</div>
+        <div class="sub-desc">Self-service analytics layer for business users. Pre-built dashboards for common KPIs. Embedded analytics in the product UI. Semantic layer translates business terms to SQL automatically — "show me revenue by region" without writing SQL.</div>
+        <div class="sub-tools"><span>Looker / LookML</span><span>Tableau</span><span>Power BI</span><span>Metabase</span><span>Apache Superset</span><span>Redash</span></div>
+      </div>
+    </div>
+    <div style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);border-radius:8px;padding:10px 14px;margin-top:10px;font-size:10.5px;color:rgba(103,232,249,0.9);line-height:1.6;">
+      <b style="color:#22d3ee;">Techniques:</b> Row-level security at API layer · Caching for frequent queries · Rate limiting per API consumer · Semantic layer for metric consistency · Schema-on-read vs schema-on-write · GraphQL federation for microservice data aggregation · Webhook-based real-time sync to operational tools
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+   NEW 4 — ENHANCED FEEDBACK LOOP VISUAL
+═══════════════════════════════════════ -->
+<div class="phase-header" style="margin-top:20px;">
+  <div class="phase-num ph-green">PHASE 16</div>
+  <div class="phase-title">🔁 Closed-Loop ML System — Visual Feedback Flow</div>
+  <span class="phase-badge badge-new">STRENGTHENED — Full closed loop</span>
+</div>
+
+<div class="special-section" style="background:rgba(34,197,94,0.06);border:2px solid rgba(34,197,94,0.3);border-radius:12px;">
+  <div class="special-header" style="background:rgba(34,197,94,0.08);">
+    <div class="special-icon">🔁</div>
+    <div>
+      <div class="special-title">Closed-Loop ML — Prediction → Action → Signal → Retrain</div>
+      <div class="special-subtitle" style="color:rgba(134,239,172,0.85);">This is what separates a demo ML system from a real production ML system. Every prediction generates a signal. Every signal improves the next model. The loop never stops — this is how Netflix recommendations get better every week, how Uber fraud detection adapts daily.</div>
+    </div>
+  </div>
+  <div class="special-body">
+    <!-- Visual closed loop flow -->
+    <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:16px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;">
+        <div style="background:rgba(79,142,247,0.15);border:1px solid rgba(79,142,247,0.35);border-radius:8px;padding:10px 12px;flex:1;min-width:110px;text-align:center;">
+          <div style="font-size:18px;margin-bottom:4px;">🤖</div>
+          <div style="font-size:10px;font-weight:800;color:#7eb5ff;margin-bottom:2px;">Model Prediction</div>
+          <div style="font-size:9px;color:#93c5fd;">Serve recommendation, fraud score, risk rating</div>
+        </div>
+        <div style="font-size:20px;color:#4ade80;font-weight:900;">→</div>
+        <div style="background:rgba(52,201,122,0.15);border:1px solid rgba(52,201,122,0.35);border-radius:8px;padding:10px 12px;flex:1;min-width:110px;text-align:center;">
+          <div style="font-size:18px;margin-bottom:4px;">👤</div>
+          <div style="font-size:10px;font-weight:800;color:#6ee7a0;margin-bottom:2px;">User Action</div>
+          <div style="font-size:9px;color:#86efac;">Click · Buy · Ignore · Report fraud · Skip</div>
+        </div>
+        <div style="font-size:20px;color:#4ade80;font-weight:900;">→</div>
+        <div style="background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.35);border-radius:8px;padding:10px 12px;flex:1;min-width:110px;text-align:center;">
+          <div style="font-size:18px;margin-bottom:4px;">📊</div>
+          <div style="font-size:10px;font-weight:800;color:#fcd34d;margin-bottom:2px;">Signal Logged</div>
+          <div style="font-size:9px;color:#fde68a;">Label stored: prediction + outcome pair</div>
+        </div>
+        <div style="font-size:20px;color:#4ade80;font-weight:900;">→</div>
+        <div style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.35);border-radius:8px;padding:10px 12px;flex:1;min-width:110px;text-align:center;">
+          <div style="font-size:18px;margin-bottom:4px;">🔍</div>
+          <div style="font-size:10px;font-weight:800;color:#fca5a5;margin-bottom:2px;">Drift Detected</div>
+          <div style="font-size:9px;color:#fecaca;">PSI threshold crossed → trigger fires</div>
+        </div>
+        <div style="font-size:20px;color:#4ade80;font-weight:900;">→</div>
+        <div style="background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.35);border-radius:8px;padding:10px 12px;flex:1;min-width:110px;text-align:center;">
+          <div style="font-size:18px;margin-bottom:4px;">⚙️</div>
+          <div style="font-size:10px;font-weight:800;color:#c4b5fd;margin-bottom:2px;">Auto Retrain</div>
+          <div style="font-size:9px;color:#ddd6fe;">Feature Eng → Train → Validate → Deploy</div>
+        </div>
+        <div style="font-size:20px;color:#4ade80;font-weight:900;">↩</div>
+      </div>
+      <div style="text-align:center;margin-top:10px;font-size:10px;color:rgba(134,239,172,0.8);font-style:italic;">↑ Loop repeats continuously — models improve automatically with zero manual intervention</div>
+    </div>
+    <div class="special-grid special-grid-3">
+      <div class="sub-card">
+        <div class="sub-num">LOOP · 01 — IMPLICIT SIGNALS</div>
+        <div class="sub-title">Behavioural Feedback</div>
+        <div class="sub-desc">Click-through rate, dwell time, purchase after recommendation, skip rate, scroll depth, session abandonment. Never explicitly asked — observed from behaviour. Noisy but high-volume. Requires careful debiasing (position bias, exposure bias).</div>
+        <div class="sub-tools"><span>Kafka topic</span><span>Clickstream pipeline</span><span>Debiasing models</span><span>Counterfactual evaluation</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">LOOP · 02 — EXPLICIT SIGNALS</div>
+        <div class="sub-title">Human Feedback</div>
+        <div class="sub-desc">Thumbs up/down, star ratings, fraud reports, appeal decisions, manual corrections by experts. Lower volume but high quality. Used for RLHF in LLMs, and ground-truth labelling for supervised models. Label deduplication and quality control essential.</div>
+        <div class="sub-tools"><span>Label Studio</span><span>Scale AI</span><span>Prodigy</span><span>RLHF pipeline</span><span>Human-in-the-loop</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">LOOP · 03 — ONLINE LEARNING</div>
+        <div class="sub-title">Continuous Model Updates</div>
+        <div class="sub-desc">For fast-changing environments (ad bidding, fraud, stock), retrain on streaming data in near-real-time. Model weights updated incrementally without full retraining. Requires careful learning rate control to prevent catastrophic forgetting.</div>
+        <div class="sub-tools"><span>River (online ML)</span><span>Vowpal Wabbit</span><span>Flink ML</span><span>Streaming SGD</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+   NEW 5 — EDGE / ON-DEVICE INFERENCE
+═══════════════════════════════════════ -->
+<div class="phase-header" style="margin-top:20px;">
+  <div class="phase-num ph-violet">PHASE 17</div>
+  <div class="phase-title">📱 Edge & On-Device Inference</div>
+  <span class="phase-badge badge-new">ADDED — Modern mobile ML</span>
+</div>
+
+<div class="special-section" style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.25);border-radius:12px;">
+  <div class="special-header" style="background:rgba(139,92,246,0.08);">
+    <div class="special-icon">📱</div>
+    <div>
+      <div class="special-title">Edge / On-Device Inference — When Cloud Latency is Not Acceptable</div>
+      <div class="special-subtitle" style="color:rgba(196,181,253,0.85);">Some ML decisions must happen on the device — no network round-trip allowed. Face ID (Apple), wake word detection (Alexa), real-time camera filters (Snapchat), offline translation (Google Translate), autonomous vehicle perception. Sub-10ms latency, zero network dependency, privacy-preserving.</div>
+    </div>
+  </div>
+  <div class="special-body">
+    <div class="special-grid special-grid-3">
+      <div class="sub-card">
+        <div class="sub-num">EDGE · 01 — MODEL QUANTISATION + COMPRESSION</div>
+        <div class="sub-title">📦 Compress Cloud Model for Device</div>
+        <div class="sub-desc">
+          Cloud-trained models are 100MB–10GB — completely unusable on mobile. Compression pipeline:<br/><br/>
+          <b>Quantisation (INT8/INT4):</b> Reduces model weights from 32-bit floats to 8-bit integers — 4× size reduction, 2–4× speed increase, &lt;1% accuracy loss. Post-training quantisation (PTQ) is easiest. Quantisation-aware training (QAT) gives better accuracy.<br/><br/>
+          <b>Pruning:</b> Removes weights close to zero (unimportant connections). Structured pruning removes entire neurons/filters — hardware-friendly. Unstructured pruning removes individual weights — higher compression but harder to accelerate.<br/><br/>
+          <b>Knowledge Distillation:</b> Train a small student model to mimic a large teacher model's outputs — not just labels. Student can be 100× smaller with 95% of teacher accuracy.<br/><br/>
+          <b>ONNX Export:</b> Convert any framework (PyTorch, TF, sklearn) to ONNX format — framework-agnostic, optimised runtime. TensorRT optimises ONNX models specifically for NVIDIA GPUs at serving time (layer fusion, kernel auto-tuning).
+        </div>
+        <div class="sub-tools"><span>TensorFlow Lite (TFLite)</span><span>ONNX Mobile</span><span>TensorRT (NVIDIA)</span><span>Apple Core ML</span><span>PyTorch Mobile</span><span>MediaPipe</span><span>Optimum (HuggingFace)</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">EDGE · 02 — MOBILE + EDGE DEPLOYMENT</div>
+        <div class="sub-title">📱 Deploy to Device — Low Latency + Offline</div>
+        <div class="sub-desc">
+          <b>Use cases where edge is mandatory:</b> Face unlock (Apple Face ID — must work offline, &lt;1ms), wake word detection (Alexa "Hey Alexa" — always-on, &lt;50ms), real-time AR filters (Snapchat — camera feed at 30fps), autonomous vehicle perception (Tesla — cannot afford cloud round-trip at 100km/h), medical wearable anomaly detection (no connectivity in hospital basement).<br/><br/>
+          <b>OTA Model Updates:</b> Push new model versions to devices without app store release. Model update downloaded in background, swapped atomically. Rollback to previous version on failure. A/B test model versions across device fleet via remote feature flags — 50% devices get Model A, 50% get Model B. Measure battery, accuracy, and latency impact remotely.<br/><br/>
+          <b>Edge Servers (CDN Edge):</b> For low-latency but not full-offline use cases — model runs at CDN edge node (Cloudflare Worker, AWS Lambda@Edge) — 5–20ms round-trip instead of 100ms to central region.
+        </div>
+        <div class="sub-tools"><span>iOS / Android native SDK</span><span>WebAssembly (WASM)</span><span>Cloudflare Workers AI</span><span>AWS IoT Greengrass</span><span>NVIDIA Jetson</span><span>AWS Lambda@Edge</span><span>OTA update framework</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">EDGE · 03 — FEDERATED LEARNING</div>
+        <div class="sub-title">🔐 Train Without Sending Raw Data</div>
+        <div class="sub-desc">
+          The ultimate privacy-preserving ML: model trains ON the device using the user's local data. Only model gradient updates (not raw data) are sent to the central server. Gradients are aggregated using Federated Averaging (FedAvg). Raw personal data never leaves the device.<br/><br/>
+          <b>Differential Privacy + Federated:</b> Gradient updates are additionally noised with calibrated Gaussian noise before upload — even the gradients reveal no information about individual users. Used by Apple (Siri, QuickType keyboard personalisation) and Google (Gboard next-word prediction) at billions of devices scale.<br/><br/>
+          <b>Healthcare application:</b> Multiple hospitals jointly train a cancer detection model without sharing patient records. Each hospital trains locally, shares only model updates. Combined model outperforms any single hospital's data alone — without violating HIPAA.
+        </div>
+        <div class="sub-tools"><span>Flower (flwr)</span><span>TensorFlow Federated</span><span>PySyft (OpenMined)</span><span>Google FL framework</span><span>OpenFL (Intel)</span><span>FedML</span></div>
+      </div>
+    </div>
+    <div style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:8px;padding:10px 14px;margin-top:10px;font-size:10.5px;color:rgba(196,181,253,0.9);line-height:1.6;">
+      <b style="color:#c4b5fd;">Use cases:</b> Face unlock · Keyboard prediction · Object detection · Voice assistant wake word · Offline translation · AR filters · Autonomous driving perception · Medical wearable anomaly detection
+      <br/><b style="color:#c4b5fd;">Techniques:</b> Post-training quantisation · Magnitude pruning · Neural Architecture Search (NAS) for mobile · Knowledge distillation · OTA model updates · On-device A/B testing
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+   NEW 6 — DEEPER LLMOps SECTION
+═══════════════════════════════════════ -->
+<div class="phase-header" style="margin-top:20px;">
+  <div class="phase-num ph-cyan">PHASE 18</div>
+  <div class="phase-title">🤖 LLMOps Deepdive — Guardrails + Safety + Hallucination Detection</div>
+  <span class="phase-badge badge-new">DEEPENED — Prompt versioning + Safety added</span>
+</div>
+
+<div class="special-section s-llm" style="border-radius:12px;">
+  <div class="special-header">
+    <div class="special-icon">🤖</div>
+    <div>
+      <div class="special-title">LLMOps Complete — Production LLM Systems at Scale</div>
+      <div class="special-subtitle" style="color:rgba(103,232,249,0.85);">Running LLMs in production is fundamentally different from classical ML. Prompt changes can break the system. Models hallucinate. Outputs must be safe. Costs can explode. All of these need dedicated engineering solutions beyond what the classical ML pipeline covers.</div>
+    </div>
+  </div>
+  <div class="special-body">
+    <div class="special-grid special-grid-3" style="margin-bottom:10px;">
+      <div class="sub-card">
+        <div class="sub-num">LLM · 01 — PROMPT VERSIONING</div>
+        <div class="sub-title">Prompt as Code</div>
+        <div class="sub-desc">Prompts are code — version them, test them, review them. Every prompt change tracked with git-like history. A/B test prompt variants with statistical significance. Regression tests catch when a prompt change breaks existing behaviour. Prompt templates stored with variable injection.</div>
+        <div class="sub-tools"><span>LangSmith</span><span>PromptLayer</span><span>Weights & Biases Prompts</span><span>Langfuse</span><span>Git-based prompt repos</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">LLM · 02 — GUARDRAILS & SAFETY</div>
+        <div class="sub-title">Input/Output Safety Filters</div>
+        <div class="sub-desc">Every LLM input and output must pass through safety filters before processing / before serving to users. Detects: toxic content, PII leakage, prompt injection attacks, jailbreak attempts, off-topic queries, competitor mentions. Applied at both input (before LLM) and output (before user) stages.</div>
+        <div class="sub-tools"><span>NVIDIA NeMo Guardrails</span><span>Guardrails AI</span><span>Azure Content Safety</span><span>AWS Comprehend</span><span>Perspective API</span><span>LlamaGuard</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">LLM · 03 — HALLUCINATION DETECTION</div>
+        <div class="sub-title">Factual Accuracy Scoring</div>
+        <div class="sub-desc">LLMs confidently state wrong facts. Production systems must detect and flag hallucinations before they reach users. Groundedness scoring checks if the answer is supported by retrieved context (RAG). Fact-checking APIs verify claims against knowledge bases. Uncertainty calibration adds confidence scores.</div>
+        <div class="sub-tools"><span>RAGAS (faithfulness metric)</span><span>TruLens</span><span>DeepEval</span><span>SelfCheckGPT</span><span>Semantic Scholar API</span><span>FactScore</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">LLM · 04 — LLM GATEWAY</div>
+        <div class="sub-title">Unified LLM Traffic Management</div>
+        <div class="sub-desc">Single gateway for all LLM API calls — routes to OpenAI, Anthropic, Gemini, local models. Handles rate limiting, cost tracking per request, fallback routing (if OpenAI down → switch to Anthropic), caching identical prompts, PII redaction before sending to third-party APIs.</div>
+        <div class="sub-tools"><span>LiteLLM</span><span>Portkey</span><span>Kong AI Gateway</span><span>Azure AI Gateway</span><span>AWS Bedrock</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">LLM · 05 — FINE-TUNING & RLHF</div>
+        <div class="sub-title">Domain Adaptation</div>
+        <div class="sub-desc">Fine-tune base LLMs on domain-specific data (legal, medical, finance). PEFT/LoRA fine-tunes only adapter layers — 100× cheaper than full fine-tuning. RLHF aligns model with human preferences via reward model. DPO (Direct Preference Optimisation) as a simpler RLHF alternative.</div>
+        <div class="sub-tools"><span>HuggingFace PEFT/LoRA</span><span>TRL (RLHF/DPO)</span><span>Vertex AI Fine-tuning</span><span>Azure OpenAI Fine-tuning</span><span>Axolotl</span></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-num">LLM · 06 — LLM EVALUATION</div>
+        <div class="sub-title">Automated Quality Assessment</div>
+        <div class="sub-desc">Evaluate LLM outputs on: faithfulness (does answer match context?), answer relevancy, context recall, toxicity, latency, cost per output token. Run eval suite on every model version before promotion. Human eval on 5% sample for calibration. Regression testing catches quality regressions.</div>
+        <div class="sub-tools"><span>RAGAS</span><span>DeepEval</span><span>TruLens</span><span>LangSmith eval</span><span>Promptfoo</span><span>Evals (OpenAI)</span></div>
+      </div>
+    </div>
+    <div style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);border-radius:8px;padding:10px 14px;font-size:10.5px;color:rgba(103,232,249,0.9);line-height:1.6;">
+      <b style="color:#22d3ee;">LLM-specific risks not present in classical ML:</b> Prompt injection (user manipulates system prompt) · Jailbreaking (bypassing safety) · Data exfiltration via LLM · Hallucinated citations · PII leakage in outputs · Token cost explosion from runaway loops · Context window poisoning · Adversarial prompt attacks
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+   UPDATED LEGEND with new phases
+═══════════════════════════════════════ -->
+<div class="legend">
+  <div class="legend-title">Phase & Color Legend — Complete</div>
+  <div class="legend-grid">
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#4f46e5,#7c5ce4)"></div>
+      <div class="legend-text"><div class="lt">Clickstream / Events</div><div class="ls">Phase 1A — Indigo</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#4f8ef7,#7c5ce4)"></div>
+      <div class="legend-text"><div class="lt">App Ingestion</div><div class="ls">Phase 1B — Blue</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#f97316,#f59e0b)"></div>
+      <div class="legend-text"><div class="lt">Streaming / CDC</div><div class="ls">Phase 2 — Orange/Amber</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#a855f7,#ec4899)"></div>
+      <div class="legend-text"><div class="lt">Quality Gates</div><div class="ls">Phase 2B / 5 — Fuchsia</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#f43f5e,#ef4444)"></div>
+      <div class="legend-text"><div class="lt">Processing / ETL</div><div class="ls">Phase 3 — Rose/Red</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#34c97a,#14b8a6)"></div>
+      <div class="legend-text"><div class="lt">Storage / Data Lake</div><div class="ls">Phase 4 — Green</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#06b6d4,#4f8ef7)"></div>
+      <div class="legend-text"><div class="lt">Data Warehouse</div><div class="ls">Phase 6 — Cyan</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#a855f7,#ec4899)"></div>
+      <div class="legend-text"><div class="lt">Vector / GenAI</div><div class="ls">Phase 6B — Fuchsia</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#f59e0b,#f97316)"></div>
+      <div class="legend-text"><div class="lt">Feature Store</div><div class="ls">Phase 7 — Amber</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#ef4444,#f43f5e)"></div>
+      <div class="legend-text"><div class="lt">Training / Versioning</div><div class="ls">Phase 8 — Red</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#14b8a6,#06b6d4)"></div>
+      <div class="legend-text"><div class="lt">MLOps / CI/CD</div><div class="ls">Phase 9 — Teal</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#8b5cf6,#ec4899)"></div>
+      <div class="legend-text"><div class="lt">Serving / Inference</div><div class="ls">Phase 10 — Violet</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#84cc16,#34c97a)"></div>
+      <div class="legend-text"><div class="lt">Monitoring (3 types)</div><div class="ls">Phase 11 — Lime</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#34c97a,#14b8a6)"></div>
+      <div class="legend-text"><div class="lt">Feedback Loop</div><div class="ls">Phase 12 — Green</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar bar-new" style="background:#8b5cf6"></div>
+      <div class="legend-text"><div class="lt" style="color:#c4b5fd;">NEW Badge</div><div class="ls">Added from audit</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:#f43f5e"></div>
+      <div class="legend-text"><div class="lt" style="color:#fda4af;">FIXED Badge</div><div class="ls">Corrected from audit</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#f59e0b,#d97706)"></div>
+      <div class="legend-text"><div class="lt">Observability (Logs+Metrics+Traces)</div><div class="ls">Phase 13 — Amber</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#10b981,#059669)"></div>
+      <div class="legend-text"><div class="lt">Cost Optimization / FinOps</div><div class="ls">Phase 14 — Emerald</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#06b6d4,#0891b2)"></div>
+      <div class="legend-text"><div class="lt">Data Access / Reverse ETL</div><div class="ls">Phase 15 — Cyan</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#22c55e,#16a34a)"></div>
+      <div class="legend-text"><div class="lt">Closed-Loop Feedback System</div><div class="ls">Phase 16 — Green</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#8b5cf6,#7c3aed)"></div>
+      <div class="legend-text"><div class="lt">Edge / On-Device Inference</div><div class="ls">Phase 17 — Violet</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#06b6d4,#3b82f6)"></div>
+      <div class="legend-text"><div class="lt">LLMOps Deepdive</div><div class="ls">Phase 18 — Cyan/Blue</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-bar" style="background:linear-gradient(180deg,#6b7280,#4b5563)"></div>
+      <div class="legend-text"><div class="lt">Specialist Layers</div><div class="ls">Synthetic · Graph ML · Causal ML · Testing</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+   SPECIALIST LAYERS
+═══════════════════════════════════════ -->
+<div class="phase-header" style="margin-top:24px;">
+  <div class="phase-num ph-gray">PHASE 19</div>
+  <div class="phase-title">🔬 Specialist Layers — Domain-Specific Additions for 10/10</div>
+  <span class="phase-badge badge-new">Synthetic · Graph ML · Causal ML · ML Testing</span>
+</div>
+
+<div class="special-section" style="background:rgba(107,114,128,0.06);border:1px solid rgba(107,114,128,0.22);border-radius:12px;">
+  <div class="special-header" style="background:rgba(107,114,128,0.1);">
+    <div class="special-icon">🔬</div>
+    <div>
+      <div class="special-title">Advanced Specialist Layers — Domain-Specific Completeness</div>
+      <div class="special-subtitle" style="color:rgba(209,213,219,0.85);">These layers are not universal — they target specific industries and problem types. Knowing them is what separates senior ML engineers in domain-specific system design interviews and rounds out every possible production scenario.</div>
+    </div>
+  </div>
+  <div class="special-body">
+    <div class="special-grid special-grid-2">
+
+      <div class="sub-card">
+        <div class="sub-num">SPECIALIST · 01 — HEALTHCARE / FINANCE / LEGAL</div>
+        <div class="sub-title">🧬 Synthetic Data Generation</div>
+        <div class="sub-desc">When real training data is scarce or contains sensitive PII (patient records, bank transactions, legal documents), synthetic data generation creates statistically realistic fake datasets. Generated data preserves the same distributions, correlations, and schema as real data — but contains no real individuals. Enables ML model training under HIPAA / GDPR without exposing personal data. Also used for class imbalance (SMOTE oversamples minority class — e.g. fraud events are 0.1% of transactions) and for testing pipelines with production-scale data volumes safely.</div>
+        <div class="sub-tools"><span>Gretel.ai</span><span>SDV (Synthetic Data Vault)</span><span>CTGAN</span><span>SMOTE</span><span>Faker</span><span>YData Profiling</span><span>Mostly AI</span></div>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-num">SPECIALIST · 02 — ML QUALITY ENGINEERING</div>
+        <div class="sub-title">🧪 ML-Specific Testing Framework</div>
+        <div class="sub-desc">Beyond standard CI/CD gates — dedicated ML testing at every level. Unit tests: verify feature transform functions produce correct outputs. Integration tests: full prediction pipeline end-to-end with real data. Behavioral tests: does model still handle edge cases and out-of-distribution inputs? Metamorphic testing: flipping gender in input should NOT change the fraud score (bias invariance test). Directional tests: increasing income should decrease churn probability. Invariance tests: prediction should not change if logically irrelevant features (e.g. customer ID) change.</div>
+        <div class="sub-tools"><span>Deepchecks</span><span>Giskard</span><span>Pytest-ML</span><span>Great Expectations</span><span>Evidently (behavioral)</span><span>Checklist (NLP)</span></div>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-num">SPECIALIST · 03 — FRAUD / SOCIAL NETWORKS / RECOMM.</div>
+        <div class="sub-title">🕸️ Graph ML / Graph Neural Networks (GNNs)</div>
+        <div class="sub-desc">When data has rich relational structure — fraud rings in transaction networks, social recommendations (user-item-user), knowledge graphs, supply chain networks — GNNs dramatically outperform standard tabular ML because they learn from BOTH node features AND graph structure simultaneously. Standard pipeline misses edges entirely. GraphSAGE generates node embeddings by aggregating neighbour features. GAT (Graph Attention Networks) weighs neighbours by importance. Used at PayPal (fraud ring detection), Pinterest (Pins recommendation), LinkedIn (connection suggestions), Google (Knowledge Graph search), Twitter (spam detection).</div>
+        <div class="sub-tools"><span>PyTorch Geometric (PyG)</span><span>DGL (Deep Graph Library)</span><span>Neo4j</span><span>Amazon Neptune</span><span>GraphSAGE</span><span>GAT</span><span>Stellar Graph</span></div>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-num">SPECIALIST · 04 — GROWTH / MARKETING / POLICY</div>
+        <div class="sub-title">📊 Causal ML / Uplift Modeling</div>
+        <div class="sub-desc">Standard ML predicts "who will churn". Causal ML predicts "who will churn specifically because we didn't intervene". Uplift modeling finds the persuadables — users who respond positively to a treatment (discount, nudge, email) and would NOT have converted without it. Avoids wasting budget on always-buyers (convert regardless) and lost causes (won't convert regardless). Uses DoWhy's Pearl do-calculus for causal graphs and counterfactual reasoning. Used at Netflix (subscription retention offers), Uber (driver incentive optimization), Booking.com (discount targeting), and all growth teams for rigorous experiment analysis and policy decisions.</div>
+        <div class="sub-tools"><span>DoWhy (Microsoft)</span><span>EconML (Microsoft)</span><span>CausalML (Uber)</span><span>PyMC (Bayesian causal)</span><span>Statsmodels</span><span>Meta's Robyn</span></div>
+      </div>
+
+    </div>
+    <div style="background:rgba(107,114,128,0.1);border:1px solid rgba(107,114,128,0.2);border-radius:8px;padding:10px 14px;margin-top:10px;font-size:10.5px;color:rgba(209,213,219,0.9);line-height:1.6;">
+      <b style="color:#e5e7eb;">When to apply:</b>&nbsp;
+      Synthetic Data → Healthcare, Finance, Legal (regulated PII environments) ·
+      ML Testing Framework → Any org with dedicated ML quality team or compliance requirements ·
+      Graph ML → Fraud detection, social recommendations, knowledge graphs, supply chain ·
+      Causal ML → Growth teams, marketing uplift, A/B analysis at scale, policy evaluation
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <b>MASTER CLASS v5 — 10/10 COMPLETE</b> · 19 Phases · 40+ Steps · 3 Inference Paths · Full Feedback Loop · 3-Pillar Observability · SLO/Error Budget · Multi-Region DR · Cost Optimization + GPU Tracking · Data Mesh · Model Cards · Privacy Enhancing Tech · Edge ML + TensorRT/ONNX · LLMOps with Guardrails · Graph ML · Causal ML · Synthetic Data · ML Testing · Label Generation Pipeline · Auto Drift + Retraining · A/B Testing System · Production-Grade 2025
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+   SUMMARY FLOWCHART — ENTIRE END-TO-END PIPELINE AT A GLANCE
+═══════════════════════════════════════════════════════════ -->
+<div style="margin:32px 0 0;padding:28px 28px 32px;background:#0a0d12;border-top:2px solid rgba(79,142,247,0.3);">
+
+  <div style="text-align:center;margin-bottom:24px;">
+    <div style="font-family:'DM Serif Display',serif;font-size:22px;color:#fff;margin-bottom:6px;">📋 End-to-End Pipeline — Summary Flowchart</div>
+    <div style="font-size:11px;color:#6b7590;font-style:italic;">All 19 phases at a glance · Simple understanding · Every step connected · No steps missed</div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:0;align-items:stretch;">
+
+    <!-- ROW 1: DATA SOURCES -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:4px;">
+      <div style="background:rgba(79,70,229,0.15);border:1px solid rgba(79,70,229,0.35);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#a5b4fc;letter-spacing:1px;margin-bottom:4px;">PHASE 1A</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">📡 Clickstream Ingestion</div>
+        <div style="font-size:10px;color:#93c5fd;line-height:1.4;">User clicks/events → Segment/Snowplow → Kafka directly (bypasses DB). 80%+ of data at Uber originates here.</div>
+      </div>
+      <div style="background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.35);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#93c5fd;letter-spacing:1px;margin-bottom:4px;">PHASE 1B</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">🖥️ App / API Ingestion</div>
+        <div style="font-size:10px;color:#93c5fd;line-height:1.4;">Frontend → Backend APIs → OLTP DB (MySQL/PostgreSQL/MongoDB). Transactional writes. ACID guarantees.</div>
+      </div>
+      <div style="background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#fdba74;letter-spacing:1px;margin-bottom:4px;">PHASE 1C</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">📋 Data Contracts</div>
+        <div style="font-size:10px;color:#fdba74;line-height:1.4;">Schema + SLA agreements before streaming. Break = auto-alert consumers. Prevents silent failures.</div>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- ROW 2: CDC + STREAMING -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;">
+      <div style="background:rgba(234,88,12,0.13);border:1px solid rgba(234,88,12,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#fb923c;letter-spacing:1px;margin-bottom:4px;">PHASE 2 — STEP 06</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">🔄 CDC (Debezium)</div>
+        <div style="font-size:10px;color:#fdba74;line-height:1.4;">Reads WAL → captures every INSERT/UPDATE/DELETE in real-time. Zero DB impact. Log-based CDC.</div>
+      </div>
+      <div style="background:rgba(217,119,6,0.13);border:1px solid rgba(217,119,6,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#fcd34d;letter-spacing:1px;margin-bottom:4px;">PHASE 2 — STEP 07</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">📨 Kafka Streaming + DLQ</div>
+        <div style="font-size:10px;color:#fde68a;line-height:1.4;">High-throughput event bus. Schema Registry (Avro). DLQ for failed messages. Exactly-once semantics.</div>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- QUALITY GATE 1 -->
+    <div style="background:rgba(168,85,247,0.12);border:1.5px dashed rgba(168,85,247,0.4);border-radius:8px;padding:10px 14px;margin-bottom:4px;">
+      <div style="font-size:9px;font-weight:800;color:#d8b4fe;letter-spacing:1px;margin-bottom:3px;">PHASE 2B — STEP 08 · QUALITY GATE #1 (EARLY)</div>
+      <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">🛡️ Ingestion-time Quality Validation (Great Expectations / Soda Core)</div>
+      <div style="font-size:10px;color:#c4b5fd;line-height:1.4;">Schema check · Null check · Range check · Referential integrity · Fails bad records → DLQ. Prevents garbage entering the lake.</div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- ROW 3: PROCESSING + LAKE -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;">
+      <div style="background:rgba(225,29,72,0.12);border:1px solid rgba(225,29,72,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#fda4af;letter-spacing:1px;margin-bottom:4px;">PHASE 3 — STEP 09</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">⚙️ Batch + Stream Processing</div>
+        <div style="font-size:10px;color:#fca5a5;line-height:1.4;">Spark (batch) + Flink (stream) + dbt (SQL transforms). Clean, join, deduplicate, aggregate. Output: Parquet/ORC columnar.</div>
+      </div>
+      <div style="background:rgba(22,163,74,0.12);border:1px solid rgba(22,163,74,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#86efac;letter-spacing:1px;margin-bottom:4px;">PHASE 4 — STEP 10</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">🗄️ Data Lake (Bronze/Silver/Gold)</div>
+        <div style="font-size:10px;color:#86efac;line-height:1.4;">S3/ADLS/GCS + Apache Hudi/Delta/Iceberg. ACID. Time-travel. Schema evolution. Medallion architecture.</div>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- QUALITY GATE 2 + METADATA + LINEAGE -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:4px;">
+      <div style="background:rgba(124,58,237,0.12);border:1.5px dashed rgba(124,58,237,0.35);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#c4b5fd;letter-spacing:1px;margin-bottom:3px;">PHASE 5 — STEP 11 · QUALITY GATE #2</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">🛡️ Post-Lake Quality</div>
+        <div style="font-size:10px;color:#a78bfa;line-height:1.4;">Row count reconciliation · Business rule validation · Freshness SLA · Fails DAG if checks don't pass.</div>
+      </div>
+      <div style="background:rgba(109,40,217,0.12);border:1px solid rgba(109,40,217,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#c4b5fd;letter-spacing:1px;margin-bottom:3px;">PHASE 5 — STEP 12</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">📚 Metadata + Data Mesh</div>
+        <div style="font-size:10px;color:#a78bfa;line-height:1.4;">DataHub/Amundsen. Domain-based ownership (Data Mesh). Business glossary. Self-serve discovery.</div>
+      </div>
+      <div style="background:rgba(91,33,182,0.12);border:1px solid rgba(91,33,182,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#c4b5fd;letter-spacing:1px;margin-bottom:3px;">PHASE 5 — STEP 13</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">🔗 Data Lineage</div>
+        <div style="font-size:10px;color:#a78bfa;line-height:1.4;">Column-level tracking. GDPR erasure. Impact analysis. OpenMetadata/Marquez/Collibra.</div>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- WAREHOUSE + VECTOR -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;">
+      <div style="background:rgba(2,132,199,0.13);border:1px solid rgba(2,132,199,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#67e8f9;letter-spacing:1px;margin-bottom:4px;">PHASE 6 — STEP 14</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">🏛️ Data Warehouse (OLAP)</div>
+        <div style="font-size:10px;color:#67e8f9;line-height:1.4;">BigQuery / Snowflake / Redshift / Databricks SQL. MPP columnar. BI dashboards. Star/Snowflake schema. NOT OLTP.</div>
+      </div>
+      <div style="background:rgba(134,25,143,0.13);border:1px solid rgba(147,51,234,0.35);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#e879f9;letter-spacing:1px;margin-bottom:4px;">PHASE 6B — STEP 15</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">🧠 Vector Store (GenAI/RAG)</div>
+        <div style="font-size:10px;color:#e879f9;line-height:1.4;">Pinecone/Weaviate/pgvector. Embeddings → ANN search. Powers RAG, semantic search, similarity. 2025 mandatory.</div>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- FEATURE ENGINEERING + STORE -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;">
+      <div style="background:rgba(180,83,9,0.13);border:1px solid rgba(217,119,6,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#fcd34d;letter-spacing:1px;margin-bottom:4px;">PHASE 7 — STEP 16</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">⚗️ Feature Engineering</div>
+        <div style="font-size:10px;color:#fde68a;line-height:1.4;">Spark + Python. Time-window aggregations ("spend_30d"). Target encoding. Backfill pipelines. Prevent feature leakage.</div>
+      </div>
+      <div style="background:rgba(161,98,7,0.13);border:1px solid rgba(202,138,4,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#fde68a;letter-spacing:1px;margin-bottom:4px;">PHASE 7 — STEP 17</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">🏪 Feature Store (Feast/Tecton)</div>
+        <div style="font-size:10px;color:#fef08a;line-height:1.4;"><b>Offline Store</b> (S3/BQ) → training · <b>Online Store</b> (Redis/DynamoDB &lt;10ms) → serving. Point-in-time correct joins.</div>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- DATA VERSIONING + TRAINING -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;">
+      <div style="background:rgba(185,28,28,0.12);border:1px solid rgba(220,38,38,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#fca5a5;letter-spacing:1px;margin-bottom:4px;">PHASE 8 — STEP 18</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">📦 Data Versioning (DVC)</div>
+        <div style="font-size:10px;color:#fca5a5;line-height:1.4;">Git for datasets. Model → code → data → feature version linkage. Reproducibility. Audit trail. DVC/LakeFS.</div>
+      </div>
+      <div style="background:rgba(153,27,27,0.12);border:1px solid rgba(185,28,28,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#fca5a5;letter-spacing:1px;margin-bottom:4px;">PHASE 8 — STEP 19</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">🧠 Model Training</div>
+        <div style="font-size:10px;color:#fca5a5;line-height:1.4;">PyTorch/TF/XGBoost/LightGBM. Hyperparameter tuning (Optuna). Distributed training (Ray/Horovod). FP16.</div>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- MLOPS TRILOGY -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:4px;">
+      <div style="background:rgba(13,148,136,0.12);border:1px solid rgba(20,184,166,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#5eead4;letter-spacing:1px;margin-bottom:3px;">PHASE 9 — STEP 20</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">📊 Experiment Tracking</div>
+        <div style="font-size:10px;color:#5eead4;line-height:1.4;">MLflow / W&B / Neptune. Log all runs. Compare metrics. Reproduce best model. Artifact storage.</div>
+      </div>
+      <div style="background:rgba(15,118,110,0.12);border:1px solid rgba(13,148,136,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#5eead4;letter-spacing:1px;margin-bottom:3px;">PHASE 9 — STEP 21</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">🗃️ Model Registry + Model Cards</div>
+        <div style="font-size:10px;color:#5eead4;line-height:1.4;">MLflow Registry. Lifecycle: Experiment→Staging→Prod→Archived. Model Cards (EU AI Act). Version history.</div>
+      </div>
+      <div style="background:rgba(17,94,89,0.12);border:1px solid rgba(15,118,110,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#5eead4;letter-spacing:1px;margin-bottom:3px;">PHASE 9 — STEP 22</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">🔧 CI/CD Pipeline (MLOps)</div>
+        <div style="font-size:10px;color:#5eead4;line-height:1.4;">GitHub Actions/ArgoCD. Auto gates: accuracy · latency · fairness. IaC (Terraform/Helm). GitOps. Auto rollback.</div>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- SERVING LAYER -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-bottom:4px;">
+      <div style="background:rgba(88,28,135,0.15);border:1px solid rgba(126,34,206,0.3);border-radius:7px;padding:8px 10px;">
+        <div style="font-size:8.5px;font-weight:800;color:#d8b4fe;margin-bottom:3px;">STEP 23</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:2px;">🚪 API Gateway</div>
+        <div style="font-size:9.5px;color:#c4b5fd;line-height:1.4;">NGINX/Kong. JWT auth. Rate limit. Route to correct model version. mTLS. Logs.</div>
+      </div>
+      <div style="background:rgba(76,29,149,0.15);border:1px solid rgba(109,40,217,0.3);border-radius:7px;padding:8px 10px;">
+        <div style="font-size:8.5px;font-weight:800;color:#c4b5fd;margin-bottom:3px;">STEP 24</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:2px;">☸️ K8s + Multi-Region HA</div>
+        <div style="font-size:9.5px;color:#a78bfa;line-height:1.4;">Docker + K8s. HPA autoscaling. KServe/Triton. Active-active 3 regions. RTO &lt;60s.</div>
+      </div>
+      <div style="background:rgba(67,20,140,0.15);border:1px solid rgba(91,33,182,0.3);border-radius:7px;padding:8px 10px;">
+        <div style="font-size:8.5px;font-weight:800;color:#c4b5fd;margin-bottom:3px;">STEP 25</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:2px;">⚡ Redis Cache</div>
+        <div style="font-size:9.5px;color:#a78bfa;line-height:1.4;">Cache predictions by input hash. TTL expiry. LRU eviction. Cuts latency 10–50×.</div>
+      </div>
+      <div style="background:rgba(55,15,120,0.15);border:1px solid rgba(76,29,149,0.3);border-radius:7px;padding:8px 10px;">
+        <div style="font-size:8.5px;font-weight:800;color:#c4b5fd;margin-bottom:3px;">STEP 26</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:2px;">🎯 Real-Time Inference</div>
+        <div style="font-size:9.5px;color:#a78bfa;line-height:1.4;">Fetch features (Online Store &lt;5ms) → predict → post-process → return. &lt;100ms total.</div>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- EXPLAINABILITY + A/B -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;">
+      <div style="background:rgba(79,70,229,0.12);border:1px solid rgba(99,102,241,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#a5b4fc;letter-spacing:1px;margin-bottom:4px;">STEP 27</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">🔍 Explainability (SHAP/LIME)</div>
+        <div style="font-size:10px;color:#a5b4fc;line-height:1.4;">SHAP dashboards (global + local). Prediction Explanation API. Fairness audit. Mandatory for finance/healthcare (EU AI Act).</div>
+      </div>
+      <div style="background:rgba(67,56,202,0.12);border:1px solid rgba(79,70,229,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#a5b4fc;letter-spacing:1px;margin-bottom:4px;">STEP 28</div>
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;">🧪 A/B Testing + Safe Rollout</div>
+        <div style="font-size:10px;color:#a5b4fc;line-height:1.4;">Optimizely/GrowthBook. Split traffic Model A vs B. p-value gating. Canary 5%→100%. Auto-rollback on regression.</div>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- MONITORING TRIPLE -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:4px;">
+      <div style="background:rgba(77,124,15,0.13);border:1px solid rgba(101,163,13,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#bef264;letter-spacing:1px;margin-bottom:3px;">STEP 29A — SYSTEM</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">📡 System Monitoring + SLO</div>
+        <div style="font-size:10px;color:#a3e635;line-height:1.4;">Prometheus+Grafana. p50/p95/p99 latency. Error rates. SLO error budget. Backpressure (KEDA). PagerDuty.</div>
+      </div>
+      <div style="background:rgba(63,98,18,0.13);border:1px solid rgba(77,124,15,0.3);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#bef264;letter-spacing:1px;margin-bottom:3px;">STEP 29B — MODEL</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">🤖 Model + Drift Monitoring</div>
+        <div style="font-size:10px;color:#a3e635;line-height:1.4;">Evidently AI/WhyLabs. Data drift (PSI). Concept drift (CUSUM). Prediction distribution. Auto-retraining trigger.</div>
+      </div>
+      <div style="background:rgba(52,78,65,0.18);border:1px solid rgba(77,124,15,0.25);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#bef264;letter-spacing:1px;margin-bottom:3px;">STEP 29C — COST</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">💸 Cost + GPU Monitoring</div>
+        <div style="font-size:10px;color:#a3e635;line-height:1.4;">Kubecost. Cost per prediction. GPU util &gt;70%. Idle auto-shutdown. Spot instances. Budget alerts.</div>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- FEEDBACK LOOP -->
+    <div style="background:rgba(21,128,61,0.13);border:2px solid rgba(34,197,94,0.35);border-radius:10px;padding:12px 16px;margin-bottom:4px;">
+      <div style="font-size:9px;font-weight:800;color:#4ade80;letter-spacing:1px;margin-bottom:6px;">PHASE 12 — STEPS 30A→30D · THE HEARTBEAT OF PRODUCTION ML</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;">
+        <div style="text-align:center;padding:6px 4px;background:rgba(0,0,0,0.2);border-radius:6px;">
+          <div style="font-size:16px;margin-bottom:3px;">🏷️</div>
+          <div style="font-size:10px;font-weight:700;color:#86efac;margin-bottom:2px;">30A — Label Pipeline</div>
+          <div style="font-size:9px;color:#6ee7a0;line-height:1.3;">Delayed labels. Prediction-label joiner. Ground truth store. Label validation.</div>
+        </div>
+        <div style="text-align:center;padding:6px 4px;background:rgba(0,0,0,0.2);border-radius:6px;">
+          <div style="font-size:16px;margin-bottom:3px;">🚨</div>
+          <div style="font-size:10px;font-weight:700;color:#86efac;margin-bottom:2px;">30B — Drift Detect</div>
+          <div style="font-size:9px;color:#6ee7a0;line-height:1.3;">PSI&gt;0.2 → alert. CUSUM concept drift. Auto-trigger Airflow DAG.</div>
+        </div>
+        <div style="text-align:center;padding:6px 4px;background:rgba(0,0,0,0.2);border-radius:6px;">
+          <div style="font-size:16px;margin-bottom:3px;">⚙️</div>
+          <div style="font-size:10px;font-weight:700;color:#86efac;margin-bottom:2px;">30C — Retrain (→Step 16)</div>
+          <div style="font-size:9px;color:#6ee7a0;line-height:1.3;">Feature Eng → Data version → Train → CI/CD gates. Zero manual.</div>
+        </div>
+        <div style="text-align:center;padding:6px 4px;background:rgba(0,0,0,0.2);border-radius:6px;">
+          <div style="font-size:16px;margin-bottom:3px;">🏆</div>
+          <div style="font-size:10px;font-weight:700;color:#86efac;margin-bottom:2px;">30D — Champion vs Challenger</div>
+          <div style="font-size:9px;color:#6ee7a0;line-height:1.3;">Shadow → Canary 5% → Validate → Promote or rollback.</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:8px;font-size:10px;color:#4ade80;font-weight:700;">↩ Loop returns to Step 16 (Feature Engineering) — not just training. Keeps model fresh forever.</div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- PARALLEL PATHS + SPECIALIST -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:4px;">
+      <div style="background:rgba(124,45,18,0.15);border:1.5px dashed rgba(234,88,12,0.4);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#fb923c;letter-spacing:1px;margin-bottom:3px;">PATH A — REAL-TIME (&lt;100ms)</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">⚡ Streaming Inference</div>
+        <div style="font-size:9.5px;color:#fdba74;line-height:1.5;">Kafka → Flink (enrich) → Redis Feature Store → KServe/Triton → Fraud alert / Risk score / Recommendation → Feedback to Lake</div>
+      </div>
+      <div style="background:rgba(76,29,149,0.13);border:1.5px dashed rgba(124,58,237,0.4);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#c4b5fd;letter-spacing:1px;margin-bottom:3px;">PATH B — BATCH (Overnight)</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">🌙 Batch Inference</div>
+        <div style="font-size:9.5px;color:#d8b4fe;line-height:1.5;">Pull all entities → Spark/SageMaker Batch score millions of rows → Write pre-computed scores to DB → App reads at zero latency</div>
+      </div>
+      <div style="background:rgba(6,78,59,0.13);border:1.5px dashed rgba(6,182,212,0.35);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:800;color:#67e8f9;letter-spacing:1px;margin-bottom:3px;">PATH C — LLMOPS</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;">🤖 LLM Pipeline</div>
+        <div style="font-size:9.5px;color:#a5f3fc;line-height:1.5;">Prompt versioning → Guardrails/Safety → RAG (Vector Store) → Fine-tuning/RLHF → LLM eval (RAGAS) → Hallucination detection</div>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div style="text-align:center;color:#4b5563;font-size:18px;line-height:1;margin:2px 0;">↓</div>
+
+    <!-- SPECIALIST + OBSERVABILITY + EDGE + COST OPT -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-bottom:0;">
+      <div style="background:rgba(30,27,75,0.2);border:1px solid rgba(79,142,247,0.25);border-radius:7px;padding:8px 10px;">
+        <div style="font-size:8.5px;font-weight:800;color:#93c5fd;margin-bottom:3px;">PHASE 13</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:2px;">🔭 Full Observability</div>
+        <div style="font-size:9.5px;color:#93c5fd;line-height:1.4;">Logs (ELK) + Metrics (Prometheus) + Traces (OpenTelemetry/Jaeger). Debug root cause in seconds.</div>
+      </div>
+      <div style="background:rgba(5,46,22,0.2);border:1px solid rgba(34,197,94,0.25);border-radius:7px;padding:8px 10px;">
+        <div style="font-size:8.5px;font-weight:800;color:#86efac;margin-bottom:3px;">PHASE 14</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:2px;">💸 Cost Optimization</div>
+        <div style="font-size:9.5px;color:#86efac;line-height:1.4;">Spot instances. KEDA scale-to-zero. Tiered data retention. Query cost. Model quantisation for efficiency.</div>
+      </div>
+      <div style="background:rgba(3,30,60,0.2);border:1px solid rgba(6,182,212,0.25);border-radius:7px;padding:8px 10px;">
+        <div style="font-size:8.5px;font-weight:800;color:#67e8f9;margin-bottom:3px;">PHASE 15</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:2px;">🔌 Reverse ETL</div>
+        <div style="font-size:9.5px;color:#67e8f9;line-height:1.4;">Hightouch/Census: Warehouse → CRM/Salesforce. GraphQL API. BI: Looker/Tableau. Semantic layer.</div>
+      </div>
+      <div style="background:rgba(46,16,101,0.2);border:1px solid rgba(139,92,246,0.25);border-radius:7px;padding:8px 10px;">
+        <div style="font-size:8.5px;font-weight:800;color:#c4b5fd;margin-bottom:3px;">PHASE 17</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:2px;">📱 Edge Inference</div>
+        <div style="font-size:9.5px;color:#c4b5fd;line-height:1.4;">TFLite/ONNX/TensorRT + quantisation. OTA model updates. Federated learning. &lt;5ms on-device.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM LEGEND -->
+  <div style="margin-top:20px;padding:12px 16px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid rgba(255,255,255,0.07);">
+    <div style="font-size:9px;font-weight:800;color:#6b7590;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Summary Legend</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:9.5px;">
+      <span style="padding:2px 8px;border-radius:3px;background:rgba(79,70,229,0.15);border:1px solid rgba(79,70,229,0.3);color:#a5b4fc;">Indigo = Clickstream</span>
+      <span style="padding:2px 8px;border-radius:3px;background:rgba(234,88,12,0.15);border:1px solid rgba(234,88,12,0.3);color:#fb923c;">Orange = CDC/Streaming</span>
+      <span style="padding:2px 8px;border-radius:3px;background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.3);color:#d8b4fe;">Purple = Quality Gates (dashed)</span>
+      <span style="padding:2px 8px;border-radius:3px;background:rgba(225,29,72,0.15);border:1px solid rgba(225,29,72,0.3);color:#fda4af;">Red = Processing</span>
+      <span style="padding:2px 8px;border-radius:3px;background:rgba(22,163,74,0.15);border:1px solid rgba(22,163,74,0.3);color:#86efac;">Green = Storage/Feedback</span>
+      <span style="padding:2px 8px;border-radius:3px;background:rgba(217,119,6,0.15);border:1px solid rgba(217,119,6,0.3);color:#fcd34d;">Amber = Features</span>
+      <span style="padding:2px 8px;border-radius:3px;background:rgba(13,148,136,0.15);border:1px solid rgba(13,148,136,0.3);color:#5eead4;">Teal = MLOps</span>
+      <span style="padding:2px 8px;border-radius:3px;background:rgba(88,28,135,0.15);border:1px solid rgba(126,34,206,0.3);color:#d8b4fe;">Violet = Serving</span>
+      <span style="padding:2px 8px;border-radius:3px;background:rgba(77,124,15,0.15);border:1px solid rgba(101,163,13,0.3);color:#bef264;">Lime = Monitoring</span>
+      <span style="padding:2px 8px;border-radius:3px;background:rgba(2,132,199,0.15);border:1px solid rgba(2,132,199,0.3);color:#67e8f9;">Cyan = Warehouse/Access</span>
+      <span style="padding:2px 8px;border-radius:3px;background:rgba(134,25,143,0.15);border:1px solid rgba(147,51,234,0.3);color:#e879f9;">Fuchsia = Vector/GenAI</span>
+      <span style="padding:2px 8px;border-radius:3px;background:rgba(185,28,28,0.15);border:1px solid rgba(220,38,38,0.3);color:#fca5a5;">Red = Training</span>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#374151;">
+    <span style="color:#4f8ef7;font-weight:700;">MASTER CLASS v5 — FINAL</span> · 19 Phases · 40+ Steps · 3 Inference Paths · Complete Production Pipeline · 2025
+  </div>
+
+</div>
+
+</div><!-- end .main -->
+</body>
+</html>
